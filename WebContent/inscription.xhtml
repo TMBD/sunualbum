@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+	<h:head>
+        <meta charset="utf-8" />
+        <title>Inscription</title>
+        <h:outputStylesheet library="default" name="css/form.css"  />
+        <f:loadBundle basename="utils.messages" var="msg"/>
+    </h:head>
+    <h:body>
+      <h:form id="registrationForm">
+         <fieldset>
+         	<legend>Inscription</legend>
+	     	<h:outputLabel for="prenom">Prénom <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="prenom" label="Prenom" requiredMessage="#{msg['subscription.prenom']}" value="#{subcribeBean.utilisateur.prenom}" required="true" size="20" maxlength="100" />
+	        <h:message id="prenomMessage" for="prenom" errorClass="erreur" />
+	        <br />
+	        
+	        <h:outputLabel for="nom">Nom <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="nom" label="Nom" requiredMessage="#{msg['subscription.nom']}" value="#{subcribeBean.utilisateur.nom}" required="true" size="20" maxlength="100" />
+	        <h:message id="nomMessage" for="nom" errorClass="erreur" />
+	        <br />
+	        
+	        <h:outputLabel for="mail">Adresse mail <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="mail" label="Mail" requiredMessage="#{msg['subscription.email']}" value="#{subcribeBean.utilisateur.mail}" required="true" size="20" maxlength="100" />
+	        <h:message id="mailMessage" for="mail" errorClass="erreur" />
+	        <br />
+	        
+	        <h:outputLabel for="userName">Nom utilisateur <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="userName" label="Nom utilisateur" requiredMessage="#{msg['subscription.username']}" value="#{subcribeBean.utilisateur.userName}" required="true" size="20" maxlength="100" />
+	        <h:message id="userNameMessage" for="userName" errorClass="erreur" />
+	        <br />
+	
+	        <h:outputLabel for="motdepasse">Mot de passe <span class="requis">*</span></h:outputLabel>
+	        <h:inputSecret id="motdepasse" label="Mot de passe" requiredMessage="#{msg['subscription.password']}" value="#{subcribeBean.utilisateur.password}" required="true" size="20" maxlength="100" />
+	        <h:message id="motDePasseMessage" for="motdepasse" errorClass="erreur" />
+	        <br />
+	
+	        <h:outputLabel for="confirmation">Confirmation du mot de passe <span class="requis">*</span></h:outputLabel>
+	        <h:inputSecret id="confirmation" label="Confirmation du mot de passe" requiredMessage="#{msg['subscription.confirmation']}" value="#{subcribeBean.utilisateur.password}" required="true" size="20" maxlength="100" />
+	        <h:message id="confirmationMessage" for="confirmation" errorClass="erreur" />
+	        <br />
+		
+	        <h:messages globalOnly="true" infoClass="info" />
+	
+	        <h:commandButton value="Inscription" action="#{subcribeBean.subcribe}" styleClass="sansLabel" />
+	        <br />
+          </fieldset>
+        </h:form> 	
+    </h:body>
+</html>

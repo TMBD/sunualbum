@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomee>
+	<Resource id="jdbc/sunualbum_ds" type="DataSource">
+		JdbcDriver = com.mysql.jdbc.Driver
+		JdbcUrl = jdbc:mysql://localhost/sunualbum_db
+		UserName = javaee
+		Password = passer
+	</Resource>
+</tomee>
