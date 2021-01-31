@@ -21,7 +21,7 @@ public abstract class Personne {
 	private String prenom;
 	private String nom;
 	private String mail;
-	private String userName;
+	private String username;
 	private String password;
 	@Temporal(TemporalType.DATE)
 	private Date RegisteredDate;
@@ -32,26 +32,26 @@ public abstract class Personne {
 	}
 
 
-	public Personne(Integer id, String prenom, String nom, String mail, String userName, String password,
+	public Personne(Integer id, String prenom, String nom, String mail, String username, String password,
 			Date registeredDate) {
 		super();
 		this.id = id;
 		this.prenom = prenom;
 		this.nom = nom;
 		this.mail = mail;
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		RegisteredDate = registeredDate;
 	}
 	
 	
-	public Personne(String prenom, String nom, String mail, String userName, String password,
+	public Personne(String prenom, String nom, String mail, String username, String password,
 			Date registeredDate) {
 		super();
 		this.prenom = prenom;
 		this.nom = nom;
 		this.mail = mail;
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		RegisteredDate = registeredDate;
 	}
@@ -97,13 +97,13 @@ public abstract class Personne {
 	}
 
 
-	public String getUserName() {
-		return userName;
+	public String getusername() {
+		return username;
 	}
 
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setusername(String username) {
+		this.username = username;
 	}
 
 
@@ -137,7 +137,7 @@ public abstract class Personne {
 		result = prime * result + ((nom == null) ? 0 : nom.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((prenom == null) ? 0 : prenom.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -181,10 +181,10 @@ public abstract class Personne {
 				return false;
 		} else if (!prenom.equals(other.prenom))
 			return false;
-		if (userName == null) {
-			if (other.userName != null)
+		if (username == null) {
+			if (other.username != null)
 				return false;
-		} else if (!userName.equals(other.userName))
+		} else if (!username.equals(other.username))
 			return false;
 		return true;
 	}
@@ -192,8 +192,8 @@ public abstract class Personne {
 
 	@Override
 	public String toString() {
-		return "Personne [id=" + id + ", prenom=" + prenom + ", nom=" + nom + ", mail=" + mail + ", userName="
-				+ userName + ", password=" + password + ", RegisteredDate=" + RegisteredDate + "]";
+		return "Personne [id=" + id + ", prenom=" + prenom + ", nom=" + nom + ", mail=" + mail + ", username="
+				+ username + ", password=" + password + ", RegisteredDate=" + RegisteredDate + "]";
 	}
 	
 	
