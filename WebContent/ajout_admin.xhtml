@@ -4,18 +4,17 @@
       xmlns:h="http://java.sun.com/jsf/html">
 	<h:head>
         <meta charset="utf-8" />
-        <title>Inscription</title>
+        <title>Ajout administrateur</title>
         <h:outputStylesheet library="default" name="css/form.css"  />
-        <f:loadBundle basename="utils.messages" var="msg"/>
     </h:head>
     <h:body>
-      <h:form id="registrationForm">
+      <h:form id="addAdminForm">
          <fieldset>
-         	<legend>Inscription</legend>
+         	<legend>Ajout administrateur</legend>
 	     	<h:outputLabel for="prenom">Prénom <span class="requis">*</span></h:outputLabel>
 	        <h:inputText 
 	        	id="prenom" 
-	        	value="#{subcribeBean.utilisateur.prenom}" 
+	        	value="#{addAdminBean.admin.prenom}" 
 	        	size="20" 
 	        	maxlength="50">
 	        	<f:ajax event="blur" render="prenomMessage" />
@@ -26,7 +25,7 @@
 	        <h:outputLabel for="nom">Nom <span class="requis">*</span></h:outputLabel>
 	        <h:inputText 
 	        	id="nom" 
-	        	value="#{subcribeBean.utilisateur.nom}" 
+	        	value="#{addAdminBean.admin.nom}" 
 	        	size="20" 
 	        	maxlength="50">
 	        	<f:ajax event="blur" render="nomMessage" />
@@ -37,7 +36,7 @@
 	        <h:outputLabel for="mail">Adresse mail <span class="requis">*</span></h:outputLabel>
 	        <h:inputText 
 	        	id="mail" 
-	        	value="#{subcribeBean.utilisateur.mail}" 
+	        	value="#{addAdminBean.admin.mail}" 
 	        	size="20" 
 	        	maxlength="50">
 	        	<f:ajax event="blur" render="mailMessage" />
@@ -48,11 +47,11 @@
 	        <h:outputLabel for="username">Nom utilisateur <span class="requis">*</span></h:outputLabel>
 	        <h:inputText 
 	        	id="username" 
-	        	value="#{subcribeBean.utilisateur.username}" 
+	        	value="#{addAdminBean.admin.username}" 
 	        	size="20" 
 	        	maxlength="50">
 	        	<f:ajax event="blur" render="usernameMessage" />
-	        	<f:validator binding="#{utilisateurUsernameUniqueValidator}" />
+	        	<f:validator binding="#{adminUsernameUniqueValidator}" />
 	        </h:inputText>
 	        <h:message id="usernameMessage" for="username" errorClass="erreur" />
 	        <br />
@@ -60,7 +59,7 @@
 	        <h:outputLabel for="password">Mot de passe <span class="requis">*</span></h:outputLabel>
 	        <h:inputSecret 
 	        	id="password" 
-	        	value="#{subcribeBean.utilisateur.password}" 
+	        	value="#{addAdminBean.admin.password}" 
 	        	size="20" 
 	        	maxlength="50" 
 	        	binding="#{passwordComponent}">
@@ -72,7 +71,7 @@
 	        <h:outputLabel for="confirmation">Confirmation du mot de passe <span class="requis">*</span></h:outputLabel>
 	        <h:inputSecret 
 	        	id="confirmation" 
-	        	value="#{subcribeBean.utilisateur.password}" 
+	        	value="#{addAdminBean.admin.password}" 
 	        	size="20" 
 	        	maxlength="50">
 	        	<f:ajax event="blur" execute="password confirmation" render="passwordMessage confirmationMessage" />
@@ -85,8 +84,8 @@
 	        <h:messages globalOnly="true" infoClass="info" />
 	
 	        <h:commandButton 
-	        	value="Inscription" 
-	        	action="#{subcribeBean.subcribe}" 
+	        	value="Valider" 
+	        	action="#{addAdminBean.subcribe}" 
 	        	styleClass="sansLabel">
 	        	<f:ajax execute="@form" render="@form" />
 	        </h:commandButton>

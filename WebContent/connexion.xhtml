@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+	<h:head>
+        <meta charset="utf-8" />
+        <title>Connexion</title>
+        <h:outputStylesheet library="default" name="css/form.css"  />
+        <f:loadBundle basename="utils.messages" var="msg"/>
+    </h:head>
+    <h:body>
+      <h:form id="registrationForm">
+         <fieldset>
+         	<legend>Connexion</legend>
+	        <h:outputLabel for="username">Nom utilisateur <span class="requis">*</span></h:outputLabel>
+	        <h:inputText 
+	        	id="username" 
+	        	value="#{connectionBean.username}" 
+	        	size="20" 
+	        	maxlength="50">
+	        	<f:ajax event="blur" render="usernameMessage" />
+	        </h:inputText>
+	        <h:message id="usernameMessage" for="username" errorClass="erreur" />
+	        <br />
+	
+	        <h:outputLabel for="password">Mot de passe <span class="requis">*</span></h:outputLabel>
+	        <h:inputSecret 
+	        	id="password" 
+	        	value="#{connectionBean.password}" 
+	        	size="20" 
+	        	maxlength="50">
+	        	<f:ajax event="blur" render="passwordMessage" />
+	        </h:inputSecret >
+	        <h:message id="passwordMessage" for="password" errorClass="erreur" />
+	        <br />
+	
+	        <h:messages globalOnly="true" infoClass="info" />
+	
+	        <h:commandButton 
+	        	value="Connection" 
+	        	action="#{connectionBean.connect}" 
+	        	styleClass="sansLabel">
+	        	<f:ajax execute="@form" render="@form" />
+	        </h:commandButton>
+	        <br />
+	      </fieldset>
+        </h:form> 	
+
+    </h:body>
+</html>

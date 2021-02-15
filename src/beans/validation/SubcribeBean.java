@@ -45,4 +45,6 @@ public class SubcribeBean implements Serializable {
         Timestamp date = new Timestamp( System.currentTimeMillis() );
         utilisateur.setRegisteredDate( date );
     }
+    
+    
 }

@@ -1,5 +1,6 @@
 package beans.persistent;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,19 +12,51 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-public abstract class Personne {
+public abstract class Personne implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotNull( message = "Veuillez saisir un prénom" )
+	@Size( min = 2, message = "Le prénom doit contenir au moins 2 caractères" )
+	@Size( max=50, message = "Le prénom doit contenir au maximun 50 caractères" )
+	@Column(nullable = false)
 	private String prenom;
+	
+	@NotNull( message = "Veuillez saisir un nom" )
+	@Size( min = 2, message = "Le nom doit contenir au moins 2 caractères" )
+	@Size( max=50, message = "Le nom doit contenir au maximun 50 caractères" )
+	@Column(nullable = false)
 	private String nom;
+	
+	@NotNull( message = "Veuillez saisir une adresse mail" )
+	@Pattern( regexp = "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)", message = "Merci de saisir une adresse mail valide" )
+	@Size( max=50, message = "L'adresse mail doit contenir au maximun 50 caractères" )
+	@Column(nullable = false)
 	private String mail;
+	
+	@NotNull( message = "Veuillez saisir un nom d'utilisateur" )
+	@Size( min = 3, message = "Le nom d'utilisateur doit contenir au moins 3 caractères" )
+	@Size( max=50, message = "Le nom d'utilisateur doit contenir au maximun 50 caractères" )
+	@Column(unique = true, nullable = false)
 	private String username;
+	
+	@NotNull( message = "Veuillez saisir un mot de passe" )
+	@Size( min = 4, message = "Le mot de passe doit contenir au moins 4 caractères" )
+	@Size( max=50, message = "Le mot de passe doit contenir au maximun 50 caractères" )
+	@Column(nullable = false)
 	private String password;
+	
 	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
 	private Date RegisteredDate;
 	
 	
@@ -97,12 +130,12 @@ public abstract class Personne {
 	}
 
 
-	public String getusername() {
+	public String getUsername() {
 		return username;
 	}
 
 
-	public void setusername(String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 

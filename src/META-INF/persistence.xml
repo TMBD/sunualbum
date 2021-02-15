@@ -20,8 +20,8 @@
  			<!-- Pour la définition du niveau de Logging. Peut prendre les valeurs :
  				OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST, ALL
  			-->
-			<property name="eclipselink.logging.level" value="FINEST"/>
-			<property name="eclipselink.logging.level.sql" value="FINEST"/>
+			<property name="eclipselink.logging.level" value="FINE"/>
+			<property name="eclipselink.logging.level.sql" value="FINE"/>
 			
 			<!-- Pour la génération des tables à partir des entités
 				"create-tables" ==> Crée les tables si elles n'existent pas
