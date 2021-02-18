@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core">
+	<h:head>
+	    <title>Liste utilisateurs</title>
+	    <meta charset="utf-8"/>
+	    <meta name="Author" content="https://github.com/pablorgarcia" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1" />
+		<h:outputStylesheet library="default" name="css/responstable.css"  />
+		<h:outputStylesheet library="default" name="css/bootstrap.min.css"  />
+		<h:outputStylesheet library="default" name="css/commons.css"  />
+	</h:head>
+	<h:body>
+		<f:metadata>
+		  <f:event type="preRenderView" listener="#{commonUtilisateurBean.isAdminOrRedirect()}"/>
+		  <f:event type="preRenderView" listener="#{commonUtilisateurBean.initializeAllUtilisateur()}"/>
+	    </f:metadata> 
+	    
+	    <ui:include src="menu_header.xhtml" />
+	    
+	    <div class="my-container">
+	    
+	    	<h:panelGroup layout="block" class="list-table-container">
+	    		<h3>Liste des utilisateurs</h3>
+				<h:panelGroup layout="block" class="list-utilisateur-table-container">
+					<h:dataTable value = "#{commonUtilisateurBean.utilisateurs}" var = "user" class = "responstable">
+				       
+				       <h:column>    				
+				          <f:facet name = "header">Prénom</f:facet>   
+				          <h:outputText value="#{user.prenom}"/>  
+				       </h:column>
+				       
+				       <h:column>
+				          <f:facet name = "header">Nom</f:facet>
+				          <h:outputText value="#{user.nom}"/>  
+				       </h:column>
+				       
+				       <h:column>
+				          <f:facet name = "header">Nom d'utilisateur</f:facet>
+				          <h:outputText value="#{user.username}"/>  
+				       </h:column>
+					      
+			            <h:column>
+				          <f:facet name = "header">Privilège</f:facet>
+					      <h:outputText value = "#{user.estAdmin ? 'Admin' : 'Utilisateur'}"/>
+				       </h:column>
+				       
+				       <h:column>
+				          <f:facet name = "header">Détails</f:facet>
+					      <a href="profil_utilisateur.xhtml?username=#{user.username}">Consulter</a>
+				       </h:column>
+					
+				    </h:dataTable>
+			    </h:panelGroup>
+		  </h:panelGroup>
+		  
+	    </div>
+		
+	</h:body>
+</html>

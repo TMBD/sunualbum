@@ -1,0 +1,166 @@
+@charset "ISO-8859-1";
+
+ .submit-list-table{
+ 	margin:0 auto;
+    display:block;;
+ }
+ 
+ .list-utilisateur-table-container{
+	overflow: scroll;
+	height: 50em;
+}
+
+.my-container{
+	margin-top: 50px;
+}
+
+.div-center{
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translate(-50%);
+  transform: translate(-50%);
+  width: 50%;
+  max-width: 800px;
+  min-width: 250px;
+}
+
+
+.profil-container{
+	
+	 position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+}
+
+.profil-items-container{
+  margin: auto;
+  display: inline-block;
+}
+
+.profil-item-line{
+	
+  	margin-top: 15px;
+}
+
+.user-info-item-key{
+	margin-right: 15px;
+	color: #1497a9;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.user-info-item-value{
+	margin-left: 15px;
+	color: #444;
+}
+
+
+.my-link-div{
+	margin-top: 20px;
+}
+
+.my-link{
+	color: rgb(50, 50, 255);
+	margin: 2px
+}
+
+.left-link{
+	margin-right: 15px;
+}
+
+.right-link{
+	margin-left: 15px;
+}
+
+
+.action-link-div{
+	margin-top: 20px;
+}
+
+.modify-link{
+	margin-left: 15px;
+	margin-right: 25%;
+	color: #1497a9;
+}
+
+.delete-link{
+	margin-left: 25%;
+	color: #e74c3c;
+}
+
+
+.button-modifier{
+	float: left;
+	color: white;
+	background: #1497a9;
+	cursor: pointer;
+	width: 100px;
+	height: 30px;
+	padding: 4px;
+}
+
+.button-supprimer{
+	float: right;
+	color: white;
+	background: #e74c3c;
+	cursor: pointer;
+	width: 100px;
+	height: 30px;
+	padding: 4px;
+  
+}
+
+.button-supprimer:hover, .button-modifier:hover {
+  -moz-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+  -webkit-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+  box-shadow: 0 2px 2px 2px rgba(170, 170, 170, 0.9);
+}
+
+
+.profil-title{
+	margin: 10px;
+}
+
+
+.list-table-container{
+	margin : 10px;
+	padding: 10px;
+	text-align: center;
+}
+
+.acceuil-image{
+	left: 0px;
+	position: absolute;
+	margin: 3px;
+	margin-left: 10px;
+}
+
+.profil-image{
+	left: 50px;
+	position: absolute;
+	margin: 3px;
+	margin-left: 10px;
+}
+
+.deconnexion-header{
+	right: 0px;
+	top: 0px;
+	position: absolute;
+	margin: 3px;
+	margin-top: 10px;
+	margin-right: 10px;
+	font-size: 13px;
+	color: #e74c3c;
+}
+
+.connexion-header{
+	right: 0px;
+	top: 0px;
+	position: absolute;
+	margin: 3px;
+	margin-top: 10px;
+	margin-right: 10px;
+	font-size: 13px;
+}
+
+

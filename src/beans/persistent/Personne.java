@@ -2,6 +2,7 @@ package beans.persistent;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Iterator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,7 +58,7 @@ public abstract class Personne implements Serializable{
 	
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
-	private Date RegisteredDate;
+	private Date registeredDate;
 	
 	
 	public Personne(){
@@ -74,7 +75,7 @@ public abstract class Personne implements Serializable{
 		this.mail = mail;
 		this.username = username;
 		this.password = password;
-		RegisteredDate = registeredDate;
+		this.registeredDate = registeredDate;
 	}
 	
 	
@@ -86,7 +87,7 @@ public abstract class Personne implements Serializable{
 		this.mail = mail;
 		this.username = username;
 		this.password = password;
-		RegisteredDate = registeredDate;
+		this.registeredDate = registeredDate;
 	}
 
 
@@ -151,12 +152,12 @@ public abstract class Personne implements Serializable{
 
 
 	public Date getRegisteredDate() {
-		return RegisteredDate;
+		return registeredDate;
 	}
 
 
 	public void setRegisteredDate(Date registeredDate) {
-		RegisteredDate = registeredDate;
+		this.registeredDate = registeredDate;
 	}
 
 
@@ -164,7 +165,7 @@ public abstract class Personne implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((RegisteredDate == null) ? 0 : RegisteredDate.hashCode());
+		result = prime * result + ((registeredDate == null) ? 0 : registeredDate.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
 		result = prime * result + ((nom == null) ? 0 : nom.hashCode());
@@ -184,10 +185,10 @@ public abstract class Personne implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Personne other = (Personne) obj;
-		if (RegisteredDate == null) {
-			if (other.RegisteredDate != null)
+		if (registeredDate == null) {
+			if (other.registeredDate != null)
 				return false;
-		} else if (!RegisteredDate.equals(other.RegisteredDate))
+		} else if (!registeredDate.equals(other.registeredDate))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -226,7 +227,7 @@ public abstract class Personne implements Serializable{
 	@Override
 	public String toString() {
 		return "Personne [id=" + id + ", prenom=" + prenom + ", nom=" + nom + ", mail=" + mail + ", username="
-				+ username + ", password=" + password + ", RegisteredDate=" + RegisteredDate + "]";
+				+ username + ", password=" + password + ", RegisteredDate=" + registeredDate + "]";
 	}
 	
 	

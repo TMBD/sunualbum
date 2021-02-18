@@ -59,7 +59,6 @@ public class CreationAlbumBean implements Serializable {
             String typeFichier = fichier.getContentType();
             byte[] contenuFichier = fichier.getBytes();
             
-            String t = "appplication/pdf";
 
             if(typeFichier.contains("image")) {
             	
@@ -75,42 +74,46 @@ public class CreationAlbumBean implements Serializable {
                 try {
                     // Create file with unique name in upload folder and write to it.
                 	String imageLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\album_images";
+                	System.out.println(imageLocation);
                 	file = File.createTempFile(prefix + "_", "." + suffix, new File(imageLocation));
                     output = new FileOutputStream(file);
                     IOUtils.copy(fichier.getInputStream(), output);
                     String fileName = file.getName();
-                    //System.out.println(FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded"));
-                   
+                    
                     initialiserDateCreation();
                     initialiserMotsCles();
                     album.setUri(fileName);
-                    album.setProprietaire(null);
-                    
-                    
                 	album.setProprietaire(proprietaire);
                 	
-                    
-                    albumDao.add(album);
+                	session.setAttribute("newAlbum", album);
 
-
+                	albumDao.add(album);
+                	
+                    //SETTING THINGS FOR REDIRECTION
                     FacesContext fContext = FacesContext.getCurrentInstance();
                 	ExternalContext extContext = fContext.getExternalContext();
-                	try {
-        				extContext.redirect("index.xhtml");
-        			} catch (IOException e) {
-        				e.printStackTrace();
-        			}
-
-
+                	
+                    if(album.getPrive()) {
+                    	try {
+            				extContext.redirect("choix_acces_album.xhtml");
+            			} catch (IOException e) {
+            				e.printStackTrace();
+            			}
+                    }else {
+                    	try {
+            				extContext.redirect("index.xhtml");
+            			} catch (IOException e) {
+            				e.printStackTrace();
+            			}
+                    }
+                    
                 } catch (IOException e) {
-                    // Cleanup.
                     if (file != null) file.delete();
 
-                    // Show error message.
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                        FacesMessage.SEVERITY_ERROR, "File upload failed with I/O error.", null));
+                        FacesMessage.SEVERITY_ERROR, "Une erreur s'est produite lors de l'enregistrement de l'image.", null));
 
-                    // Always log stacktraces (with a real logger).
+                    
                     e.printStackTrace();
                 } finally {
                     IOUtils.closeQuietly(output);
@@ -119,12 +122,12 @@ public class CreationAlbumBean implements Serializable {
             	///////////////////////////
             	
             }else {
-            	FacesMessage message = new FacesMessage("Le fichier doit être une image !" ) ;
+            	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Le fichier doit être une image !", null) ;
             	FacesContext.getCurrentInstance().addMessage( null, message );
             }
 
     	}else { //absence de session utilisateur et admin
-    		FacesMessage message = new FacesMessage("Vous devez etre authentifié pour pourvoir creer un album" ) ;
+    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Vous devez etre authentifié pour pourvoir creer un album", null) ;
         	FacesContext.getCurrentInstance().addMessage( null, message );
     	}
     	

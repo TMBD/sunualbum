@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	<h:head>
+        <meta charset="utf-8" />
+        <title>Profil</title>
+        <h:outputStylesheet library="default" name="css/form.css"  />
+        <h:outputStylesheet library="default" name="css/bootstrap.min.css"  />
+        <h:outputStylesheet library="default" name="css/commons.css"  />
+        <f:loadBundle basename="utils.messages" var="msg"/>
+    </h:head>
+    <h:body>
+	  <f:metadata>
+		 <f:event type="preRenderView" listener="#{commonUtilisateurBean.initialiserUtilisateurProfilDetailsByUsername(param['username'])}"/>
+	  </f:metadata>
+      <ui:include src="menu_header.xhtml" /> 
+    
+      <div class="my-container">
+      	<div class="profil-container">
+			<div class="profil-items-container">
+			<h3 class="profil-title">Détails profils</h3>
+				<div class="profil-item-line">
+					<h:outputLabel class="user-info-item-key">Prénom : </h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonUtilisateurBean.utilisateurProfilDetails.prenom}</h:outputLabel>
+				</div>
+		     	
+		     	<div class="profil-item-line">
+					<h:outputLabel class="user-info-item-key">Nom : </h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonUtilisateurBean.utilisateurProfilDetails.nom}</h:outputLabel>
+				</div>
+				
+				<div class="profil-item-line">
+					<h:outputLabel class="user-info-item-key">Nom utilisateur : </h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonUtilisateurBean.utilisateurProfilDetails.username}</h:outputLabel>
+				</div>
+				
+				<div class="profil-item-line">
+					<h:outputLabel class="user-info-item-key">Adresse mail : </h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonUtilisateurBean.utilisateurProfilDetails.mail}</h:outputLabel>
+				</div>
+				
+				<div class="profil-item-line">
+					<h:outputLabel class="user-info-item-key">Date inscription : </h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonUtilisateurBean.utilisateurProfilDetails.registeredDate}</h:outputLabel>
+				</div>
+				
+				<div class="profil-item-line">
+					<h:outputLabel class="user-info-item-key">Privilège : </h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonUtilisateurBean.utilisateurProfilDetails.estAdmin ? 'Admin' : 'Utilisateur'}</h:outputLabel>
+				</div>
+		 	</div>
+	
+			<div class="my-link-div">
+				<a href="albums_utilisateur.xhtml?type=owner&amp;username=#{commonUtilisateurBean.utilisateurProfilDetails.username}" class="my-link left-link">Consulter liste album crée</a>
+		        <a href="albums_utilisateur.xhtml?type=access&amp;username=#{commonUtilisateurBean.utilisateurProfilDetails.username}" class="my-link right-link">Consulter liste album accessible</a>
+			</div>
+			
+			
+			<div class="action-link-div">
+				<h:form class="cf" id="registration-form">
+				<h:messages globalOnly="true" errorClass="erreur" infoClass="info" /><br />
+				
+				<h:commandButton 
+		        	value="Modifier" 
+		        	action="#{subcribeBean.gotToSubcibePageForUpdate(commonUtilisateurBean.utilisateurProfilDetails.username)}" 
+		        	styleClass="sansLabel"
+		        	class="button-modifier">
+		        	<f:ajax execute="@form" render="@form" />
+		        </h:commandButton>
+		        
+		        <h:commandButton 
+		        	value="Supprimer" 
+		        	action="#{commonUtilisateurBean.supprimerUtilisateurByUsername(commonUtilisateurBean.utilisateurProfilDetails.username)}" 
+		        	styleClass="sansLabel"
+		        	class="button-supprimer">
+		        	<f:ajax execute="@form" render="@form" />
+		        </h:commandButton>
+		        
+				</h:form>
+			</div>
+	        
+	        
+	        <br />
+      	</div>
+      </div>
+
+    </h:body>
+</html>

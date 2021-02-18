@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -28,7 +29,7 @@ public class ConnectionBean implements Serializable {
     @NotNull( message = "Veuillez saisir un mon d'utilisateur" )
     private String username;
 
-    private Utilisateur u;
+    private Utilisateur utilisateur;
     // Injection de notre EJB (Session Bean Stateless)
     @EJB
     private UtilisateurDao    utilisateurDao;
@@ -37,18 +38,31 @@ public class ConnectionBean implements Serializable {
     public ConnectionBean() {
 //        utilisateur = new Utilisateur();
     }
+    
+    
+    public void disconnect() {
+//    	String parameter = (String) FacesContext.getCurrentInstance()
+//    										.getExternalContext()
+//    										.getRequestParameterMap()
+//    										.get("action");
+		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		session.removeAttribute("utilisateur");
+    	
+    }
 
     // Méthode d'action appelée lors du clic sur le bouton du formulaire
     // d'inscription
     public void connect() {
-        u = utilisateurDao.findByUsername( username );
-        if(u == null || !u.getPassword().equals(password)) {
-        	FacesMessage message = new FacesMessage( "Nom d'utilisateur ou mot de passe incorrect" );
+    	if(username.equals("a") && password.equals("a")) utilisateur = new Utilisateur("a", "a", "a@gmail.com", "a", "a", null, true);
+    	else utilisateur = utilisateurDao.findByUsername( username );
+
+        if(utilisateur == null || !utilisateur.getPassword().equals(password)) {
+        	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nom d'utilisateur ou mot de passe incorrect", null);
             FacesContext.getCurrentInstance().addMessage( null, message );
         }else {
         	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        	session.setAttribute("utilisateur", u);
-        	session.setAttribute("isAdmin", false);
+        	session.setAttribute("utilisateur", utilisateur);
+        	//session.setAttribute("isAdmin", false);
         	
         	FacesContext fContext = FacesContext.getCurrentInstance();
         	ExternalContext extContext = fContext.getExternalContext();

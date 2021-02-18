@@ -3,53 +3,68 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:t="http://myfaces.apache.org/tomahawk">
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <title>Création d'album</title>
         <h:outputStylesheet library="default" name="css/form.css"  />
+        <h:outputStylesheet library="default" name="css/bootstrap.min.css"  />
+        <h:outputStylesheet library="default" name="css/commons.css"  />
     </h:head>
     <h:body>
-        <h:form enctype="multipart/form-data">
-            <fieldset>
-                <legend>Création d'album</legend>
-
-                <h:outputLabel for="theme">Theme <span class="requis">*</span></h:outputLabel>
-                <h:inputText id="theme" value="#{creationAlbumBean.album.theme}"/>
-                <h:message id="themeMessage" for="theme" errorClass="erreur" />
-                <br />
-                
-                <h:outputLabel for="prive">Album privé <span class="requis">*</span></h:outputLabel>
-                <h:selectBooleanCheckbox id="prive" value="#{creationAlbumBean.album.prive}"/>
-                <h:message id="priveMessage" for="prive" errorClass="erreur" />
-                <br />
-                
-                <h:outputLabel for="titre">Titre <span class="requis">*</span></h:outputLabel>
-                <h:inputText id="titre" value="#{creationAlbumBean.album.titre}"/>
-                <h:message id="titreMessage" for="titre" errorClass="erreur" />
-                <br />
-                
-                <h:outputLabel for="description">Description <span class="requis">*</span></h:outputLabel>
-                <h:inputText id="description" value="#{creationAlbumBean.album.description}"/>
-                <h:message id="descriptionMessage" for="description" errorClass="erreur" />
-                <br />
-                
-                <h:outputLabel for="motsCles">Mots clés </h:outputLabel>
-                <h:inputText id="motsCles" value="#{creationAlbumBean.chaineMotCle}"/>
-                <h:message id="motsClesMessage" for="motsCles" errorClass="erreur" />
-                <br />
-
-                <h:outputLabel for="fichier">Emplacement du fichier <span class="requis">*</span></h:outputLabel>
-                <t:inputFileUpload id="fichier" value="#{creationAlbumBean.fichier}" accept="image/*">
-                	<f:validator validatorId="tailleMaxImageValidator" />
-                </t:inputFileUpload>
-                <h:message id="fichierMessage" for="fichier" errorClass="erreur" />
-                <br />
-                
-                <h:messages globalOnly="true" infoClass="info" />
-                
-                <h:commandButton value="Valider" action="#{creationAlbumBean.save}" styleClass="sansLabel"/>
-                <br />
-            </fieldset>
-        </h:form>
+        <ui:include src="menu_header.xhtml" />
+        
+        <div class="my-container">
+      	  <div class="div-center">
+      		<h:form enctype="multipart/form-data" class="cf" id="registration-form">
+	         	<h1>Création d'album</h1>
+        			<div class="cf">
+        			
+		                <h:outputLabel for="theme">Theme <span class="requis">*</span></h:outputLabel>
+		                <h:message id="themeMessage" for="theme" errorClass="erreur error-message" />
+		                <h:inputText id="theme" value="#{creationAlbumBean.album.theme}" class="text-input"/>
+		                <br />
+		                
+		                <h:outputLabel for="titre">Titre <span class="requis">*</span></h:outputLabel>
+		                <h:message id="titreMessage" for="titre" errorClass="erreur error-message" />
+		                <h:inputText id="titre" value="#{creationAlbumBean.album.titre}" class="text-input"/>
+		                <br />
+		                
+		                <h:outputLabel for="description">Description <span class="requis">*</span></h:outputLabel>
+		                <h:message id="descriptionMessage" for="description" errorClass="erreur error-message" />
+		                <h:inputText id="description" value="#{creationAlbumBean.album.description}" class="text-input"/>
+		                <br />
+		                
+		                <h:outputLabel for="motsCles">Mots clés </h:outputLabel>
+		                <h:message id="motsClesMessage" for="motsCles" errorClass="erreur error-message" />
+		                <h:inputText id="motsCles" value="#{creationAlbumBean.chaineMotCle}" class="text-input" a:placeholder="liste des mots clés séparés par des espaces"/>
+		                <br />
+		                
+		                <h:outputLabel for="prive">Album privé</h:outputLabel>
+		                <h:message id="priveMessage" for="prive" errorClass="erreur error-message" />
+		                <h:selectBooleanCheckbox class="checkbox-input" id="prive" value="#{creationAlbumBean.album.prive}"/>
+		                <br />
+		
+		                <h:outputLabel for="fichier">Emplacement du fichier <span class="requis">*</span></h:outputLabel>
+		                <h:message id="fichierMessage" for="fichier" errorClass="erreur error-message" />
+		                <t:inputFileUpload id="fichier" value="#{creationAlbumBean.fichier}" accept="image/*">
+		                	<f:validator validatorId="tailleMaxImageValidator" />
+		                </t:inputFileUpload>
+		                <br />
+	                
+	                </div>
+	                
+	                <h:messages globalOnly="true" errorClass="erreur" infoClass="info" /><br />
+	                
+	                <h:commandButton value="Valider" action="#{creationAlbumBean.save}" styleClass="sansLabel" class="input-submit"/>
+	                <br />
+	            
+			  </h:form> 
+	      	</div>
+	      </div>
+      
+        
+	        
     </h:body> 
 </html>

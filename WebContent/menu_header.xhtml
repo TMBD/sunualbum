@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jstl/core">
+    <h:head>
+		<h:outputStylesheet library="default" name="css/menu_header.css"  />
+		<h:outputScript library="default" name="js/menu_header.js" />
+		<h:outputScript library="default" name="js/jquery-1.11.3.min.js" />
+	</h:head>
+
+	<header>
+	<a href="index.xhtml">
+		<img class="acceuil-image" src="resources/assets/icon_acceuil.png" alt="ACCUEIL" width="28" height="28"></img>
+	</a>
+	
+	<c:if test="#{sessionScope['utilisateur'] != null}">
+	   <a href="profil_utilisateur.xhtml?username=#{sessionScope['utilisateur'].username}">
+		  <img class="profil-image" src="resources/assets/profil.png" alt="PROFIL" width="28" height="28"></img>
+	   </a>
+    </c:if>
+	
+	  <div class="container">
+	    <div class="box">
+	      
+	      <ul>
+	      	 <c:if test="#{sessionScope['utilisateur'] == null}">
+		        <li><a href="connexion.xhtml">CONNEXION</a></li>
+		     </c:if>
+	      	
+	        <li><a href="index_albums.xhtml">ALBUMS</a></li>
+	        <li><a href="index.xhtml">PHOTOS</a></li> 
+	        
+	        <c:if test="#{sessionScope['utilisateur'] != null}">
+	          <li><a href="albums_utilisateur.xhtml">MES ALBUMS</a></li>
+	          <li><a href="photos_utilisateur.xhtml">MES PHOTOS</a></li>
+	        </c:if>
+	      	
+	      	<c:if test="#{sessionScope['utilisateur'] != null and sessionScope['utilisateur'].estAdmin}">
+	          <li><a href="list_utilisateur.xhtml">LISTE UTILISATEURS</a></li>
+	          <li><a href="ajout_admin.xhtml">AJOUTER ADMIN</a></li>
+	        </c:if>
+	        
+	      </ul>
+	    </div>
+	  </div>
+	  
+	  <c:if test="#{sessionScope['utilisateur'] == null}">
+        <a class="connexion-header" href="connexion.xhtml">CONNEXION</a>
+      </c:if>
+     
+      <c:if test="#{sessionScope['utilisateur'] != null}">
+        <a class="deconnexion-header" href="connexion.xhtml?deconnexion=true">DECONNEXION</a>
+      </c:if>
+      
+	</header>
+	
+</ui:composition>

@@ -2,21 +2,8 @@
 
 /* Général ------------------------------------------------------------------------------------- */
 
-body, p, legend, label, input {
-    font: normal 8pt verdana, helvetica, sans-serif;
-}
 
-fieldset {
-    padding: 10px;
-    border: 1px #0568CD solid;
-}
-
-legend {
-    font-weight: bold;
-    color: #0568CD;
-}
-
-/* Forms --------------------------------------------------------------------------------------- */
+/* Forms --------------------------------------------------------------------------------------- 
 
 form label {
     float: left;
@@ -28,7 +15,7 @@ form input {
     margin: 3px 3px 0px 0px;
     border: 1px #999 solid;
 }
-
+*/
 form input.sansLabel {
     margin-left: 200px;
 }
@@ -43,4 +30,117 @@ form .erreur {
 
 form .succes {
     color: #090;
+}
+
+
+/*----------------------------------------------------------------------------------*/
+
+
+div label {
+    display: inline-block !important;
+    margin-bottom: .0rem !important;
+}
+.error-message{
+	font-size: 0.7em !important;
+	font-family: 'Open Sans', sans-serif !important;
+}
+
+.checkbox-input{
+	width: auto;
+}
+.text-input{
+ 	background-color: rgba(100, 100, 100, 0.1) !important;
+ 	border: 1px solid rgba(100, 100, 100, 0.1);
+ }
+
+@import url(https://fonts.googleapis.com/css?family=Merriweather);
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+h1 {
+  text-align: center;
+  color: #a8a8a8;
+  text-shadow: 1px 1px 0 white;
+}
+
+form {
+  width: 70%;
+  margin: 20px auto;
+}
+form input, form textarea {
+  border: 0;
+  outline: 0;
+  padding: 0.5em;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  display: block;
+  width: 100%;
+  margin-top: 0.2em;
+  font-family: 'Merriweather', sans-serif;
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  resize: none;
+  
+}
+
+
+form input:focus, form textarea:focus {
+  -moz-box-shadow: 0 0px 2px #e74c3c !important;
+  -webkit-box-shadow: 0 0px 2px #e74c3c !important;
+  box-shadow: 0 0px 2px #e74c3c !important;
+}
+form .input-submit {
+  color: white;
+  background: #e74c3c;
+  cursor: pointer;
+}
+form .input-submit:hover {
+  -moz-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+  -webkit-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+  box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+}
+form textarea {
+  height: 126px;
+}
+
+.half {
+  float: left;
+  width: 48%;
+  margin-bottom: 1em;
+}
+
+.right {
+  width: 50%;
+}
+
+.left {
+  margin-right: 2%;
+}
+
+@media (max-width: 480px) {
+  .half {
+    width: 100%;
+    float: none;
+    margin-bottom: 0;
+  }
+}
+/* Clearfix */
+.cf:before,
+.cf:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+
+.cf:after {
+  clear: both;
 }

@@ -1,98 +1,120 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 	<h:head>
         <meta charset="utf-8" />
         <title>Inscription</title>
         <h:outputStylesheet library="default" name="css/form.css"  />
+        <h:outputStylesheet library="default" name="css/bootstrap.min.css"  />
+        <h:outputStylesheet library="default" name="css/commons.css"  />
         <f:loadBundle basename="utils.messages" var="msg"/>
     </h:head>
     <h:body>
-      <h:form id="registrationForm">
-         <fieldset>
-         	<legend>Inscription</legend>
-	     	<h:outputLabel for="prenom">Prénom <span class="requis">*</span></h:outputLabel>
-	        <h:inputText 
-	        	id="prenom" 
-	        	value="#{subcribeBean.utilisateur.prenom}" 
-	        	size="20" 
-	        	maxlength="50">
-	        	<f:ajax event="blur" render="prenomMessage" />
-	        </h:inputText>
-	        <h:message id="prenomMessage" for="prenom" errorClass="erreur" />
-	        <br />
-	        
-	        <h:outputLabel for="nom">Nom <span class="requis">*</span></h:outputLabel>
-	        <h:inputText 
-	        	id="nom" 
-	        	value="#{subcribeBean.utilisateur.nom}" 
-	        	size="20" 
-	        	maxlength="50">
-	        	<f:ajax event="blur" render="nomMessage" />
-	        </h:inputText>
-	        <h:message id="nomMessage" for="nom" errorClass="erreur" />
-	        <br />
-	        
-	        <h:outputLabel for="mail">Adresse mail <span class="requis">*</span></h:outputLabel>
-	        <h:inputText 
-	        	id="mail" 
-	        	value="#{subcribeBean.utilisateur.mail}" 
-	        	size="20" 
-	        	maxlength="50">
-	        	<f:ajax event="blur" render="mailMessage" />
-	        </h:inputText>
-	        <h:message id="mailMessage" for="mail" errorClass="erreur" />
-	        <br />
-	        
-	        <h:outputLabel for="username">Nom utilisateur <span class="requis">*</span></h:outputLabel>
-	        <h:inputText 
-	        	id="username" 
-	        	value="#{subcribeBean.utilisateur.username}" 
-	        	size="20" 
-	        	maxlength="50">
-	        	<f:ajax event="blur" render="usernameMessage" />
-	        	<f:validator binding="#{utilisateurUsernameUniqueValidator}" />
-	        </h:inputText>
-	        <h:message id="usernameMessage" for="username" errorClass="erreur" />
-	        <br />
-	
-	        <h:outputLabel for="password">Mot de passe <span class="requis">*</span></h:outputLabel>
-	        <h:inputSecret 
-	        	id="password" 
-	        	value="#{subcribeBean.utilisateur.password}" 
-	        	size="20" 
-	        	maxlength="50" 
-	        	binding="#{passwordComponent}">
-	        	<f:ajax event="blur" execute="password confirmation" render="passwordMessage confirmationMessage" />
-	        </h:inputSecret >
-	        <h:message id="passwordMessage" for="password" errorClass="erreur" />
-	        <br />
-	
-	        <h:outputLabel for="confirmation">Confirmation du mot de passe <span class="requis">*</span></h:outputLabel>
-	        <h:inputSecret 
-	        	id="confirmation" 
-	        	value="#{subcribeBean.utilisateur.password}" 
-	        	size="20" 
-	        	maxlength="50">
-	        	<f:ajax event="blur" execute="password confirmation" render="passwordMessage confirmationMessage" />
-	        	<f:validator validatorId="confimationPasswordValidator" />
-	        	<f:attribute name="passwordComponent" value="#{passwordComponent}" />
-	        </h:inputSecret >
-	        <h:message id="confirmationMessage" for="confirmation" errorClass="erreur" />
-	        <br />
-		 
-	        <h:messages globalOnly="true" infoClass="info" />
-	
-	        <h:commandButton 
-	        	value="Inscription" 
-	        	action="#{subcribeBean.subcribe}" 
-	        	styleClass="sansLabel">
-	        	<f:ajax execute="@form" render="@form" />
-	        </h:commandButton>
-	        <br />
-	      </fieldset>
-        </h:form> 	
+      <f:metadata>
+		 <f:viewAction action="#{subcribeBean.getUserInformationForUpdate(param['username'])}" />
+	  </f:metadata>
+    
+      <ui:include src="menu_header.xhtml" /> 
+    
+      <div class="my-container">
+      	<div class="div-center">
+      		<h:form class="cf" id="registration-form">
+	         	<h1>Inscription</h1>
+      
+				<div class="cf">
+			     	<h:outputLabel for="prenom">Prénom <span class="requis">*</span></h:outputLabel><br />
+			     	<h:message id="prenomMessage" for="prenom" errorClass="erreur error-message" />
+			        <h:inputText 
+			        	id="prenom" 
+			        	value="#{subcribeBean.utilisateur.prenom}" 
+			        	size="20" 
+			        	maxlength="50"
+			        	class="text-input">
+			        	<f:ajax event="blur" render="prenomMessage" />
+			        </h:inputText>
+			        <br />
+			        
+			        <h:outputLabel for="nom">Nom <span class="requis">*</span></h:outputLabel><br />
+			        <h:message id="nomMessage" for="nom" errorClass="erreur error-message" />
+			        <h:inputText 
+			        	id="nom" 
+			        	value="#{subcribeBean.utilisateur.nom}" 
+			        	size="20" 
+			        	maxlength="50"
+			        	class="text-input">
+			        	<f:ajax event="blur" render="nomMessage" />
+			        </h:inputText>
+			        <br />
+			        
+			        <h:outputLabel for="mail">Adresse mail <span class="requis">*</span></h:outputLabel><br />
+			        <h:message id="mailMessage" for="mail" errorClass="erreur error-message" />
+			        <h:inputText 
+			        	id="mail" 
+			        	value="#{subcribeBean.utilisateur.mail}" 
+			        	size="20" 
+			        	maxlength="50"
+			        	class="text-input">
+			        	<f:ajax event="blur" render="mailMessage" />
+			        </h:inputText>
+			        <br />
+			        
+			        <h:outputLabel for="username">Nom utilisateur <span class="requis">*</span></h:outputLabel><br />
+			        <h:message id="usernameMessage" for="username" errorClass="erreur error-message" />
+			        <h:inputText 
+			        	id="username" 
+			        	value="#{subcribeBean.utilisateur.username}" 
+			        	size="20" 
+			        	maxlength="50"
+			        	class="text-input">
+			        	<f:ajax event="blur" render="usernameMessage" />
+			        	<f:validator binding="#{utilisateurUsernameUniqueValidator}" />
+			        </h:inputText>
+			        <br />
+			
+			        <h:outputLabel for="password">Mot de passe <span class="requis">*</span></h:outputLabel><br />
+			        <h:message id="passwordMessage" for="password" errorClass="erreur error-message" />
+			        <h:inputSecret 
+			        	id="password" 
+			        	value="#{subcribeBean.utilisateur.password}" 
+			        	size="20" 
+			        	maxlength="50" 
+			        	class="text-input"
+			        	binding="#{passwordComponent}">
+			        	<f:ajax event="blur" execute="password confirmation" render="passwordMessage confirmationMessage" />
+			        </h:inputSecret >
+			        <br />
+			
+			        <h:outputLabel for="confirmation">Confirmation du mot de passe <span class="requis">*</span></h:outputLabel><br />
+			        <h:message id="confirmationMessage" for="confirmation" errorClass="erreur error-message" />
+			        <h:inputSecret 
+			        	id="confirmation" 
+			        	value="#{subcribeBean.utilisateur.password}" 
+			        	size="20" 
+			        	maxlength="50"
+			        	class="text-input">
+			        	<f:ajax event="blur" execute="password confirmation" render="passwordMessage confirmationMessage" />
+			        	<f:validator validatorId="confimationPasswordValidator" />
+			        	<f:attribute name="passwordComponent" value="#{passwordComponent}" />
+			        </h:inputSecret >
+			        <br />
+			 	</div>
+			 	
+		        <h:messages globalOnly="true" errorClass="erreur" infoClass="info" /><br />
+		
+		        <h:commandButton 
+		        	value="Inscription" 
+		        	action="#{subcribeBean.subcribe}" 
+		        	styleClass="sansLabel"
+		        	class="input-submit">
+		        	<f:ajax execute="@form" render="@form" />
+		        </h:commandButton>
+		        <br />
+	      
+			</h:form> 
+      	</div>
+      </div>
 
     </h:body>
 </html>

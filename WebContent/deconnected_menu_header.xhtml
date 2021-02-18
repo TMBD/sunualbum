@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jstl/core">
+    <h:head>
+		<h:outputStylesheet library="default" name="css/menu_header.css"  />
+		<h:outputScript library="default" name="js/menu_header.js" />
+		<h:outputScript library="default" name="js/jquery-1.11.3.min.js" />
+	</h:head>
+
+	<header>
+	  <a href="index.xhtml">
+		 <img class="acceuil-image" src="resources/assets/icon_acceuil.png" alt="Acceuil" width="28" height="28"></img>
+	  </a>
+	
+	  <div class="container">
+	    <div class="box">
+	      <ul>
+	        <li><a href="index_albums.xhtml">ALBUMS</a></li>
+	        <li><a href="index.xhtml">PHOTOS</a></li>
+	      </ul>
+	    </div>
+	    <span id="menu"><span class="ion-navicon-round"></span></span>
+	  </div>
+	  <a class="connexion-header" href="connexion.xhtml">CONNEXION</a>
+	</header>
+	
+</ui:composition>

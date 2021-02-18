@@ -1,50 +1,75 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core">
 	<h:head>
         <meta charset="utf-8" />
         <title>Connexion</title>
         <h:outputStylesheet library="default" name="css/form.css"  />
+        <h:outputStylesheet library="default" name="css/bootstrap.min.css"  />
+        <h:outputStylesheet library="default" name="css/commons.css"  />
         <f:loadBundle basename="utils.messages" var="msg"/>
     </h:head>
     <h:body>
-      <h:form id="registrationForm">
-         <fieldset>
-         	<legend>Connexion</legend>
-	        <h:outputLabel for="username">Nom utilisateur <span class="requis">*</span></h:outputLabel>
-	        <h:inputText 
-	        	id="username" 
-	        	value="#{connectionBean.username}" 
-	        	size="20" 
-	        	maxlength="50">
-	        	<f:ajax event="blur" render="usernameMessage" />
-	        </h:inputText>
-	        <h:message id="usernameMessage" for="username" errorClass="erreur" />
-	        <br />
-	
-	        <h:outputLabel for="password">Mot de passe <span class="requis">*</span></h:outputLabel>
-	        <h:inputSecret 
-	        	id="password" 
-	        	value="#{connectionBean.password}" 
-	        	size="20" 
-	        	maxlength="50">
-	        	<f:ajax event="blur" render="passwordMessage" />
-	        </h:inputSecret >
-	        <h:message id="passwordMessage" for="password" errorClass="erreur" />
-	        <br />
-	
-	        <h:messages globalOnly="true" infoClass="info" />
-	
-	        <h:commandButton 
-	        	value="Connection" 
-	        	action="#{connectionBean.connect}" 
-	        	styleClass="sansLabel">
-	        	<f:ajax execute="@form" render="@form" />
-	        </h:commandButton>
-	        <br />
-	      </fieldset>
-        </h:form> 	
+    
+      <c:if test="#{param['deconnexion']}">
+         #{connectionBean.disconnect()}
+         <ui:include src="deconnected_menu_header.xhtml" />
+      </c:if>
+      <c:if test="#{empty param['deconnexion']}">
+         #{connectionBean.disconnect()}
+         <ui:include src="menu_header.xhtml" />
+      </c:if>
+      
+      <div class="my-container">
+      	<div class="div-center">
+      		<h:form class="cf" id="connexion-form">
+	         	<h1>Connexion</h1>
+	         	
+	         	<div class="cf">
+			        <h:outputLabel for="username">Nom utilisateur <span class="requis">*</span></h:outputLabel><br/>
+			        <h:message id="usernameMessage" for="username" errorClass="erreur error-message" />
+			        <h:inputText 
+			        	id="username" 
+			        	value="#{connectionBean.username}" 
+			        	size="20" 
+			        	maxlength="50"
+			        	class="text-input">
+			        	<f:ajax event="blur" render="usernameMessage" />
+			        </h:inputText>
+			        <br />
+			
+			        <h:outputLabel for="password">Mot de passe <span class="requis">*</span></h:outputLabel><br/>
+			        <h:message id="passwordMessage" for="password" errorClass="erreur error-message" />
+			        <h:inputSecret 
+			        	id="password" 
+			        	value="#{connectionBean.password}" 
+			        	size="20" 
+			        	maxlength="50"
+			        	class="text-input">
+			        	<f:ajax event="blur" render="passwordMessage" />
+			        </h:inputSecret >
+			        <br />
+				</div>
+		
+		        <h:messages globalOnly="true" errorClass="erreur" infoClass="info" /><br />
+		
+		        <h:commandButton 
+		        	value="Connection" 
+		        	action="#{connectionBean.connect}" 
+		        	styleClass="sansLabel"
+		        	class="input-submit">
+		        	<f:ajax execute="@form" render="@form" />
+		        </h:commandButton>
+		        <br />
+		        <a href="inscription.xhtml">S'inscrire</a>
+		        
+	        </h:form> 
+      	</div>
+      </div>
+	      	
 
     </h:body>
 </html>

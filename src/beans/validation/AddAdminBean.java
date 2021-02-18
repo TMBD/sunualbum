@@ -10,44 +10,48 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import beans.persistent.Admin;
-import dao.AdminDao;
+import beans.persistent.Utilisateur;
+import dao.UtilisateurDao;
 
 @Named
 @ViewScoped
 public class AddAdminBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Admin       admin;
+    private Utilisateur       admin;
 
     // Injection de notre EJB (Session Bean Stateless)
     @EJB
-    private AdminDao    adminDao;
+    private UtilisateurDao    utilisateurDao;
 
     // Initialisation de l'entité utilisateur
     public AddAdminBean() {
-    	admin = new Admin();
+    	admin = new Utilisateur();
     }
 
     // Méthode d'action appelée lors du clic sur le bouton du formulaire
     // d'inscription
     public void subcribe() {
     	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-    	Admin connectedAdmin = (Admin) session.getAttribute("admin");
-    	if(connectedAdmin != null && ((connectedAdmin.getUsername().equals("a") && connectedAdmin.getPassword().equals("a")) || adminDao.exist(connectedAdmin.getUsername(), connectedAdmin.getPassword()))) {
+    	Utilisateur connectedAdmin = (Utilisateur) session.getAttribute("admin");
+    	if(connectedAdmin != null && ((connectedAdmin.getUsername().equals("a") && connectedAdmin.getPassword().equals("a")) || utilisateurDao.estAdmin(connectedAdmin.getUsername(), connectedAdmin.getPassword()))) {
     		initialiserDateInscription();
-	        adminDao.add( admin );
-	        FacesMessage message = new FacesMessage( "Admin ajouté avec succès" );
+	        utilisateurDao.add( admin );
+	        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Admin ajouté avec succès", null );
 	        FacesContext.getCurrentInstance().addMessage( null, message );
     	}else {
-    		FacesMessage message = new FacesMessage( "Vous devez être un administrateur pour pouvoir ajouter un autre administrateur !" );
+    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vous devez être un administrateur pour pouvoir ajouter un autre administrateur !", null );
             FacesContext.getCurrentInstance().addMessage( null, message );
     	}
         
     }
 
-    public Admin getAdmin() {
+    public Utilisateur getAdmin() {
         return admin;
+    }
+    
+    public void setAdmin(Utilisateur admin) {
+        this.admin = admin;
     }
 
     private void initialiserDateInscription() {

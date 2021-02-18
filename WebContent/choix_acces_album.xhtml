@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	<h:head>
+	    <title>Choix utilisateurs</title>
+	    <meta charset="utf-8"/>
+	    <meta name="Author" content="https://github.com/pablorgarcia" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1" />
+		<h:outputStylesheet library="default" name="css/responstable.css"  />
+		<h:outputStylesheet library="default" name="css/bootstrap.min.css"  />
+		<h:outputStylesheet library="default" name="css/commons.css"  />
+	</h:head>
+	<h:body>
+	    <ui:include src="menu_header.xhtml" />
+	    
+	    <div class="my-container">
+	    
+	    	<h:panelGroup layout="block" class="container">
+			<h:form enctype="multipart/form-data">
+				<h:panelGroup layout="block" class="list-utilisateur-table-container">
+					<h:dataTable value = "#{choixAccesAlbumBean.utilisateursAcces}" var = "utilisateursAcces" class = "responstable">
+				       
+				       <h:column>
+				          <f:facet name = "header">Nom d'utilisateur</f:facet>
+				          <h:outputText value="#{utilisateursAcces.utilisateur.username}"/>  
+				       </h:column>
+				       
+				       <h:column>    				
+				          <f:facet name = "header">Prénom</f:facet>   
+				          <h:outputText value="#{utilisateursAcces.utilisateur.prenom}"/>  
+				       </h:column>
+				       
+				       <h:column>
+				          <f:facet name = "header">Nom</f:facet>
+				          <h:outputText value="#{utilisateursAcces.utilisateur.nom}"/>  
+				       </h:column>
+			            
+			            <h:column>
+				          <f:facet name = "header">Accès</f:facet>
+				          <h:selectBooleanCheckbox value = "#{utilisateursAcces.acces}"/>
+				       </h:column>
+
+				    </h:dataTable>
+			    </h:panelGroup>
+			    <h:commandButton value="Valider" action="#{choixAccesAlbumBean.add}" styleClass="sansLabel" class="submit-list-table"/>
+			    
+	        </h:form>
+		  </h:panelGroup>
+		  
+	    </div>
+		
+	</h:body>
+</html>

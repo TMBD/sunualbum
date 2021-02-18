@@ -47,6 +47,38 @@ public class UtilisateurDao {
 		}
 	}
 	
+	public boolean exist(String username) {
+		if(findByUsername(username) != null) return true;
+		return false;
+	}
+	
+	public boolean exist(String username, String password) {
+		Utilisateur u = findByUsername(username);
+		if(u != null && u.getPassword().equals(password)) return true;
+		return false;
+	}
+	
+	public boolean estAdmin(String username) {
+		Utilisateur u = findByUsername(username);
+		if(u != null && u.getEstAdmin()) return true;
+		return false;
+	}
+	
+	public boolean estAdmin(String username, String password) {
+		Utilisateur u = findByUsername(username);
+		if(u != null && u.getPassword().equals(password) && u.getEstAdmin()) return true;
+		return false;
+	}
+
+	public void delete(String username) {
+		em.remove(findByUsername(username));
+	}
+
+	public void update(Utilisateur utilisateur) {
+		em.merge(utilisateur);
+		
+	}
+	
 	
 	 
 }
