@@ -136,5 +136,34 @@ public class CommonUtilisateurBean implements Serializable {
     	
 	}
     
+    public static boolean hasAuthenticated() {
+    	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+    	try {
+    		Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
+        	if(utilisateurCourant != null) {
+        		return true;
+        	}
+            return false;
+		} catch (Exception e) {
+			return false;
+		}
+    	
+    }
+    
+    public static void hasAuthenticatedOrRedirect() {
+    	if(hasAuthenticated()) {
+    		return;
+    	}else {
+    		FacesContext fContext = FacesContext.getCurrentInstance();
+        	ExternalContext extContext = fContext.getExternalContext();
+        	try {
+    			extContext.redirect("connexion.xhtml");
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+        	return;
+    	}
+    }
+    
     
 }

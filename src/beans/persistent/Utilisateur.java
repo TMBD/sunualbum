@@ -128,8 +128,6 @@ public class Utilisateur extends Personne implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((album == null) ? 0 : album.hashCode());
-		result = prime * result + ((albumsAutorises == null) ? 0 : albumsAutorises.hashCode());
 		result = prime * result + ((estAdmin == null) ? 0 : estAdmin.hashCode());
 		return result;
 	}
@@ -143,16 +141,6 @@ public class Utilisateur extends Personne implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Utilisateur other = (Utilisateur) obj;
-		if (album == null) {
-			if (other.album != null)
-				return false;
-		} else if (!album.equals(other.album))
-			return false;
-		if (albumsAutorises == null) {
-			if (other.albumsAutorises != null)
-				return false;
-		} else if (!albumsAutorises.equals(other.albumsAutorises))
-			return false;
 		if (estAdmin == null) {
 			if (other.estAdmin != null)
 				return false;

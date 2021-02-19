@@ -1,0 +1,221 @@
+@charset "ISO-8859-1";
+
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+
+*, *:before, *:after{
+    -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 ;
+  margin: 0;
+}
+body{
+  font-family: 'Raleway', sans-serif;
+}
+#page0{
+  position: relative;
+  height: 100vh;
+  background: yellow;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+#page1{
+  position: relative;
+  height: 100vh;
+  background: green;
+  padding: 0 !important;
+  margin:0 !important;
+}
+.centered-div{
+  position: absolute;
+  background: red;
+  height: 150px;
+  width: 500px;
+  top: calc(50vh - 75px);
+  left: calc(50vw - 250px);
+  margin: 0;
+  padding:0;
+}
+
+.titre{
+  border-bottom: 1px solid #fff;
+  padding: 10px;
+  background: #333;
+  color: #fff;
+  margin-top: 0;
+}
+/*
+.circle-div{
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: red;
+  border-radius: 50%;
+  top: calc(50vh - 100px);
+  left: calc(50vw - 100px);
+}
+
+.circle-div span{
+  color: #fff;
+  width: 180px;
+  height: 180px;
+  padding: 20px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 14px;
+}*/
+
+.rogner{
+  width: 920px;
+  padding-top: 10%;
+}
+
+.image1,.image2,.image3{
+  width: 33%;
+  height: 100px;
+  display: table-cell;
+}
+
+.thisa{
+  text-decoration: none;
+  transition: all 0.4s ease-in-out 0s;
+}
+
+.thisa:hover{
+  text-decoration: none;
+}
+
+.container-test{
+  width: 100%;
+}
+
+.container-test .overlayer-title{
+  text-align: center;
+  font-size: 13px;
+  margin-top: 15px !important;
+}
+
+
+.content{
+  position: relative;
+  width: 100%;
+  margin: auto;
+  overflow: hidden;
+  margin-bottom: 10px;
+  cursor: pointer;
+  
+  -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+  
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.content-overlay{
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #1497a9;;
+  opacity: 0;
+  height: 100%;
+  -webkit-transition: all 0.4s ease-in-out 0s;
+  -moz-webkit: all 0.4s ease-in-out 0s;
+  transition: all 0.4s ease-in-out 0s;
+}
+
+.content-details{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: -100%;
+  bottom: 100%;
+  text-align: center;
+  color: #ffffff;
+  -webkit-transition: all 0.4s ease-in-out 0s;
+  -moz-transition: all 0.4s ease-in-out 0s;
+  transition: all 0.4s ease-in-out 0s;
+}
+
+.image{
+  width: 100%;
+}
+
+.content:hover .content-overlay{
+  opacity: 0.5;
+}
+
+.content:hover .content-details{
+  transform: translate(100%, 100%);
+  
+}
+
+
+.container-test{
+  margin-bottom: 5%;
+}
+
+
+
+/*********************************************************/
+/*****************  PARTIE AFFICHAGE IMAGE ***************/
+/*********************************************************/
+
+.thumbnail {
+  width: 300px;
+  height: 300px;
+  float: left;
+  margin: 5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.thumbnail img {
+  height: 100%;
+  cursor: pointer;
+}
+
+#blackout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.9);
+  text-align: center;
+  cursor: url("http://www.rouvre.com/themes/default/images/cursor-close.png"), crosshair;
+}
+#blackout .title {
+  width: 100%;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  color: white;
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+#blackout img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+

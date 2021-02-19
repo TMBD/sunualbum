@@ -223,7 +223,6 @@ public class Photo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((album == null) ? 0 : album.hashCode());
 		result = prime * result + ((dateCreation == null) ? 0 : dateCreation.hashCode());
 		result = prime * result + ((dateMiseAJour == null) ? 0 : dateMiseAJour.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
@@ -245,11 +244,6 @@ public class Photo {
 		if (getClass() != obj.getClass())
 			return false;
 		Photo other = (Photo) obj;
-		if (album == null) {
-			if (other.album != null)
-				return false;
-		} else if (!album.equals(other.album))
-			return false;
 		if (dateCreation == null) {
 			if (other.dateCreation != null)
 				return false;

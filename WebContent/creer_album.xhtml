@@ -13,6 +13,9 @@
         <h:outputStylesheet library="default" name="css/commons.css"  />
     </h:head>
     <h:body>
+    <f:metadata>
+		 <f:viewAction action="#{commonUtilisateurBean.hasAuthenticatedOrRedirect}" />
+	  </f:metadata>
         <ui:include src="menu_header.xhtml" />
         
         <div class="my-container">
@@ -21,32 +24,32 @@
 	         	<h1>Création d'album</h1>
         			<div class="cf">
         			
-		                <h:outputLabel for="theme">Theme <span class="requis">*</span></h:outputLabel>
+		                <h:outputLabel for="theme">Theme <span class="requis">*</span></h:outputLabel><br/>
 		                <h:message id="themeMessage" for="theme" errorClass="erreur error-message" />
 		                <h:inputText id="theme" value="#{creationAlbumBean.album.theme}" class="text-input"/>
 		                <br />
 		                
-		                <h:outputLabel for="titre">Titre <span class="requis">*</span></h:outputLabel>
+		                <h:outputLabel for="titre">Titre <span class="requis">*</span></h:outputLabel><br/>
 		                <h:message id="titreMessage" for="titre" errorClass="erreur error-message" />
 		                <h:inputText id="titre" value="#{creationAlbumBean.album.titre}" class="text-input"/>
 		                <br />
 		                
-		                <h:outputLabel for="description">Description <span class="requis">*</span></h:outputLabel>
+		                <h:outputLabel for="description">Description <span class="requis">*</span></h:outputLabel><br/>
 		                <h:message id="descriptionMessage" for="description" errorClass="erreur error-message" />
 		                <h:inputText id="description" value="#{creationAlbumBean.album.description}" class="text-input"/>
 		                <br />
 		                
-		                <h:outputLabel for="motsCles">Mots clés </h:outputLabel>
+		                <h:outputLabel for="motsCles">Mots clés </h:outputLabel><br/>
 		                <h:message id="motsClesMessage" for="motsCles" errorClass="erreur error-message" />
 		                <h:inputText id="motsCles" value="#{creationAlbumBean.chaineMotCle}" class="text-input" a:placeholder="liste des mots clés séparés par des espaces"/>
 		                <br />
 		                
-		                <h:outputLabel for="prive">Album privé</h:outputLabel>
+		                <h:outputLabel for="prive">Album privé</h:outputLabel><br/>
 		                <h:message id="priveMessage" for="prive" errorClass="erreur error-message" />
 		                <h:selectBooleanCheckbox class="checkbox-input" id="prive" value="#{creationAlbumBean.album.prive}"/>
 		                <br />
 		
-		                <h:outputLabel for="fichier">Emplacement du fichier <span class="requis">*</span></h:outputLabel>
+		                <h:outputLabel for="fichier">Emplacement du fichier <span class="requis">*</span></h:outputLabel><br/>
 		                <h:message id="fichierMessage" for="fichier" errorClass="erreur error-message" />
 		                <t:inputFileUpload id="fichier" value="#{creationAlbumBean.fichier}" accept="image/*">
 		                	<f:validator validatorId="tailleMaxImageValidator" />

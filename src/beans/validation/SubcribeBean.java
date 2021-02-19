@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -27,35 +28,39 @@ public class SubcribeBean implements Serializable {
     @EJB
     private UtilisateurDao    utilisateurDao;
     
-
+    private String usernameForUpdate;
     // Initialisation de l'entité utilisateur
     public SubcribeBean() {
         utilisateur = new Utilisateur();
+        HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+    	session.setAttribute("forUpdate", false);
     }
+    
 
     // Méthode d'action appelée lors du clic sur le bouton du formulaire
     // d'inscription
     public void subcribe() {
     	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-    	Boolean forUpdate = (Boolean)session.getAttribute("forUpdate");
-    	if(forUpdate == null || forUpdate == false) {
+    	if(usernameForUpdate == null || usernameForUpdate.equals("")) {
     		initialiserDateInscription();
             utilisateurDao.add( utilisateur );
-            FacesMessage message = new FacesMessage( "Succès de l'inscription !" );
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès de l'inscription !", null);
             FacesContext.getCurrentInstance().addMessage( null, message );
     	}else {
-    		utilisateurDao.update( utilisateur );
-    		Utilisateur utilisateurCourant = (Utilisateur) session.getAttribute("utilisateur");
-    		if(utilisateurCourant.getEstAdmin() == false) {
-    			session.setAttribute("utilisateur", utilisateur);
-    		}
-    		session.removeAttribute("forUpdate");
-    		FacesContext fContext = FacesContext.getCurrentInstance();
-        	ExternalContext extContext = fContext.getExternalContext();
-        	try {
-    			extContext.redirect("profil_utilisateur.xhtml?username="+utilisateur.getUsername());
-    		} catch (IOException e) {
-    			e.printStackTrace();
+    		if(CommonUtilisateurBean.isAdminOrSelProfilOrRedirect(usernameForUpdate)) {
+	    		utilisateurDao.update( utilisateur );
+	    		Utilisateur utilisateurCourant = (Utilisateur) session.getAttribute("utilisateur");
+	    		if(utilisateurCourant.getEstAdmin() == false) {
+	    			session.setAttribute("utilisateur", utilisateur);
+	    		}
+	    		session.setAttribute("forUpdate", false);
+	    		FacesContext fContext = FacesContext.getCurrentInstance();
+	        	ExternalContext extContext = fContext.getExternalContext();
+	        	try {
+	    			extContext.redirect("profil_utilisateur.xhtml?username="+utilisateur.getUsername());
+	    		} catch (IOException e) {
+	    			e.printStackTrace();
+	    		}
     		}
     	}
     }
@@ -63,9 +68,6 @@ public class SubcribeBean implements Serializable {
     public void gotToSubcibePageForUpdate(String username) {
     	if(username == null) return;
     	try {
-    		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        	session.setAttribute("forUpdate", true);
-        	
         	FacesContext fContext = FacesContext.getCurrentInstance();
         	ExternalContext extContext = fContext.getExternalContext();
         	try {
@@ -81,21 +83,33 @@ public class SubcribeBean implements Serializable {
     }
     
     public void getUserInformationForUpdate(String username) {
-    	if(username != null && CommonUtilisateurBean.isAdminOrSelProfilOrRedirect(username)){
+    	if(username != null && username.equals("") == false && CommonUtilisateurBean.isAdminOrSelProfilOrRedirect(username)){
     		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        	boolean forUpdate = (boolean) session.getAttribute("forUpdate");
-        	if(forUpdate) {
-            	this.utilisateur = utilisateurDao.findByUsername(username);
-            	System.out.println("this is a user : "+this.utilisateur);
-        	}
+        	session.setAttribute("forUpdate", true);
+            this.utilisateur = utilisateurDao.findByUsername(username);
+            this.usernameForUpdate = username;
     	}
     }
 
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }
+    
+    public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
 
-    private void initialiserDateInscription() {
+    public String getUsernameForUpdate() {
+		return usernameForUpdate;
+	}
+
+
+	public void setUsernameForUpdate(String usernameForUpdate) {
+		this.usernameForUpdate = usernameForUpdate;
+	}
+
+
+	private void initialiserDateInscription() {
         Timestamp date = new Timestamp( System.currentTimeMillis() );
         utilisateur.setRegisteredDate( date );
     }
@@ -103,8 +117,7 @@ public class SubcribeBean implements Serializable {
     @PreDestroy
     private void beforeDesctroy(){
     	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-    	session.removeAttribute("forUpdate");
+    	session.setAttribute("forUpdate", false);
     }
-    
     
 }

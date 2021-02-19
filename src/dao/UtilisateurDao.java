@@ -76,7 +76,6 @@ public class UtilisateurDao {
 
 	public void update(Utilisateur utilisateur) {
 		em.merge(utilisateur);
-		
 	}
 	
 	

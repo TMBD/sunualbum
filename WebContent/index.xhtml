@@ -5,22 +5,48 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 	<h:head>
         <meta charset="utf-8" />
-        <title>Accueil</title>
+        <title>Sunualbum</title>
         <h:outputStylesheet library="default" name="css/form.css"  />
         <h:outputStylesheet library="default" name="css/bootstrap.min.css"  />
         <h:outputStylesheet library="default" name="css/commons.css"  />
+        <h:outputStylesheet library="default" name="css/galerie.css"  />
+        <h:outputScript library="default" name="js/jquery-1.11.3.min.js" />
+        <f:loadBundle basename="utils.messages" var="app_propeties"/>
     </h:head>
     <h:body>
       <ui:include src="menu_header.xhtml" />
-      
       <div class="my-container">
-      	
-      	<h1>Bienvenu</h1>
-      
-      	<h2>#{sessionScope['utilisateur'].prenom}</h2>
-      	
-      </div>
-      
-      
+		<div class="container-test">
+		  <div class="container-fluid">
+		    <div class="row">
+		    
+				    <ui:repeat value = "#{commonAlbumBean.allAlbums}" var = "album">
+				    	<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						    <a href="album_details.xhtml?id=">
+						    	<h3 class="overlayer-title">Voir details</h3>
+						    </a>
+						    <div class="content" onclick="displayImage('#{ album.id }')">
+						      <div class="content-overlay"></div>
+						      <img class="image" id="#{ album.id }" src="#{app_propeties['location.album']}#{ album.uri }" alt="#{ album.titre }"/>
+						      <div class="content-details">
+						        <h1 class="details-title">#{ album.titre }</h1>
+						          <p>#{ album.description }</p>
+						      </div>
+						    </div>
+			    		</div>
+				    
+				    </ui:repeat>
+				    
+			    	
+		    
+		    
+		    </div> <!-- end div row -->
+		  </div> <!-- end div container-fluid -->
+		</div> <!-- end div container-test -->
+      </div> <!-- end div my-container -->
     </h:body>
+    
+    <script>
+		
+    </script>
 </html>

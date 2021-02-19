@@ -255,13 +255,10 @@ public class Album {
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((motsCles == null) ? 0 : motsCles.hashCode());
-		result = prime * result + ((photos == null) ? 0 : photos.hashCode());
 		result = prime * result + ((prive == null) ? 0 : prive.hashCode());
-		result = prime * result + ((proprietaire == null) ? 0 : proprietaire.hashCode());
 		result = prime * result + ((theme == null) ? 0 : theme.hashCode());
 		result = prime * result + ((titre == null) ? 0 : titre.hashCode());
 		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
-		result = prime * result + ((utilisateursAutorises == null) ? 0 : utilisateursAutorises.hashCode());
 		return result;
 	}
 
@@ -300,20 +297,10 @@ public class Album {
 				return false;
 		} else if (!motsCles.equals(other.motsCles))
 			return false;
-		if (photos == null) {
-			if (other.photos != null)
-				return false;
-		} else if (!photos.equals(other.photos))
-			return false;
 		if (prive == null) {
 			if (other.prive != null)
 				return false;
 		} else if (!prive.equals(other.prive))
-			return false;
-		if (proprietaire == null) {
-			if (other.proprietaire != null)
-				return false;
-		} else if (!proprietaire.equals(other.proprietaire))
 			return false;
 		if (theme == null) {
 			if (other.theme != null)
@@ -329,11 +316,6 @@ public class Album {
 			if (other.uri != null)
 				return false;
 		} else if (!uri.equals(other.uri))
-			return false;
-		if (utilisateursAutorises == null) {
-			if (other.utilisateursAutorises != null)
-				return false;
-		} else if (!utilisateursAutorises.equals(other.utilisateursAutorises))
 			return false;
 		return true;
 	}

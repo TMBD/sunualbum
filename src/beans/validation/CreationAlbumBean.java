@@ -27,6 +27,7 @@ import org.apache.myfaces.custom.fileupload.UploadedFile;
 import beans.persistent.Album;
 import beans.persistent.Utilisateur;
 import dao.AlbumDao;
+import utils.PropertiesUtil;
 
 
 @ManagedBean
@@ -73,7 +74,9 @@ public class CreationAlbumBean implements Serializable {
                 
                 try {
                     // Create file with unique name in upload folder and write to it.
-                	String imageLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\album_images";
+                	PropertiesUtil configProperties = new PropertiesUtil("C:\\Users\\thier\\Documents\\gitclones\\dgi_workspace\\jee\\sunualbum\\build\\classes\\utils\\config.properties");
+                	//String imageLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\album_images";
+                	String imageLocation = configProperties.getValue("location.album");
                 	System.out.println(imageLocation);
                 	file = File.createTempFile(prefix + "_", "." + suffix, new File(imageLocation));
                     output = new FileOutputStream(file);
