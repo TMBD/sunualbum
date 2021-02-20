@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core">
 	<h:head>
 	    <title>Choix utilisateurs</title>
 	    <meta charset="utf-8"/>
@@ -12,13 +13,15 @@
 		<h:outputStylesheet library="default" name="css/responstable.css"  />
 		<h:outputStylesheet library="default" name="css/bootstrap.min.css"  />
 		<h:outputStylesheet library="default" name="css/commons.css"  />
+		<h:outputStylesheet library="default" name="css/form.css"  />
 	</h:head>
 	<h:body>
 	    <ui:include src="menu_header.xhtml" />
 	    
 	    <div class="my-container">
-	    
-	    	<h:panelGroup layout="block" class="container">
+	    	
+	    	<h:panelGroup layout="block" class="list-table-container">
+	    	<h2>Choisisir les utilisateurs qui auront accès à l'album</h2>
 			<h:form enctype="multipart/form-data">
 				<h:panelGroup layout="block" class="list-utilisateur-table-container">
 					<h:dataTable value = "#{choixAccesAlbumBean.utilisateursAcces}" var = "utilisateursAcces" class = "responstable">
@@ -45,12 +48,25 @@
 
 				    </h:dataTable>
 			    </h:panelGroup>
-			    <h:commandButton value="Valider" action="#{choixAccesAlbumBean.add}" styleClass="sansLabel" class="submit-list-table"/>
+			    <h:commandButton value="Valider" action="#{choixAccesAlbumBean.add}" styleClass="sansLabel" class="fixed-bottom-button" />
 			    
 	        </h:form>
 		  </h:panelGroup>
 		  
 	    </div>
+	    
+	    
+	    <c:if test="#{( !empty sessionScope['utilisateur']) and sessionScope['utilisateur'] != null}">
+      	  <div class="new-album-photo">
+			<div class="new-album" onclick="goToNewAlbum()">Nouvel album</div>
+		  </div>
+		  
+		  <script>
+			function goToNewAlbum(){
+				window.location.href = "creer_album.xhtml";
+			}
+      	  </script>
+        </c:if>
 		
 	</h:body>
 </html>

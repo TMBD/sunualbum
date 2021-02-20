@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core">
 	<h:head>
         <meta charset="utf-8" />
         <title>Sunualbum</title>
@@ -11,25 +12,43 @@
         <h:outputStylesheet library="default" name="css/commons.css"  />
         <h:outputStylesheet library="default" name="css/galerie.css"  />
         <h:outputScript library="default" name="js/jquery-1.11.3.min.js" />
-        <f:loadBundle basename="utils.messages" var="app_propeties"/>
     </h:head>
     <h:body>
+	  <f:metadata>
+		 <f:viewAction action="#{commonAlbumBean.initListAlbums(param['username'], param['type'])}" />
+	  </f:metadata>
+	  
       <ui:include src="menu_header.xhtml" />
       <div class="my-container">
 		<div class="container-test">
 		  <div class="container-fluid">
 		    <div class="row">
 		    
+		    		<!--
+		    		<c:choose>
+					    <c:when test="#{((not empty sessionScope['utilisateur']) and sessionScope['utilisateur'] != null) and sessionScope['utilisateur'].estAdmin == true }">
+					        #{commonAlbumBean.allAlbums}
+					        <ui:param value = "#{commonAlbumBean.allAlbums}" name = "listAlbums"/>
+					    </c:when>
+					    <c:when test="#{not empty sessionScope['utilisateur'] and sessionScope['utilisateur'].estAdmin }">
+					        <ui:param value = "#{commonAlbumBean.allAlbums}" name = "listAlbums"/>
+					    </c:when>
+					    <c:otherwise>
+					        <p>some.test is not true</p>
+					    </c:otherwise>
+					</c:choose> 
+					-->
+					
 				    <ui:repeat value = "#{commonAlbumBean.allAlbums}" var = "album">
 				    	<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-						    <a href="album_details.xhtml?id=">
+						    <a href="album_details.xhtml?albumId=#{ album.id }">
 						    	<h3 class="overlayer-title">Voir details</h3>
 						    </a>
 						    <div class="content" onclick="displayImage('#{ album.id }')">
 						      <div class="content-overlay"></div>
-						      <img class="image" id="#{ album.id }" src="#{app_propeties['location.album']}#{ album.uri }" alt="#{ album.titre }"/>
+						      <img class="image" id="#{ album.id }" src="resources\uploaded\album_images\/#{album.uri }" alt="#{ album.titre }"/>
 						      <div class="content-details">
-						        <h1 class="details-title">#{ album.titre }</h1>
+						        <h2 class="details-title">#{ album.titre }</h2>
 						          <p>#{ album.description }</p>
 						      </div>
 						    </div>
@@ -39,14 +58,24 @@
 				    
 			    	
 		    
-		    
 		    </div> <!-- end div row -->
 		  </div> <!-- end div container-fluid -->
 		</div> <!-- end div container-test -->
       </div> <!-- end div my-container -->
+      
+      <c:if test="#{( !empty sessionScope['utilisateur']) and sessionScope['utilisateur'] != null}">
+      	  <div class="new-album-photo">
+			<div class="new-album" onclick="goToNewAlbum()">Nouvel album</div>
+		  </div>
+		  
+		  <script>
+			function goToNewAlbum(){
+				window.location.href = "creer_album.xhtml";
+			}
+      	  </script>
+      </c:if>
+      
+    
     </h:body>
     
-    <script>
-		
-    </script>
 </html>

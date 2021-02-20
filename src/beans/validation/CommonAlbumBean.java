@@ -1,6 +1,7 @@
 package beans.validation;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,25 +34,122 @@ public class CommonAlbumBean implements Serializable {
     UtilisateurDao utilisateurDao;
     
     private List<Album> allAlbums;
-    private List<Album> allPublicAlbums;
+    //private List<Album> allPublicAlbums;
     private Album albumDetails = null;
+    private boolean userCanModify = false;
     
 
 
     public CommonAlbumBean() {
     	allAlbums = new ArrayList<Album>();
-    	allPublicAlbums = new ArrayList<Album>();
+    	//allPublicAlbums = new ArrayList<Album>();
     }
     
-    @PostConstruct
-    public void initializeAllAlbums(){
-    	//if(CommonUtilisateurBean.isAdminOrRedirect()) {
+    
+    
+    public void initListAlbums(String username, String type) {
+    	if(username == null || username.trim().equals("")) {
+    		if(CommonUtilisateurBean.hasAuthenticated()) {
+	    		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		    	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
+		    	if(utilisateurCourant.getEstAdmin()) initializeForAllAlbums();
+		    	else {
+		    		initializeAccessibleAlbums(utilisateurCourant);
+		    	}
+	    	}else {
+	    		initializeForPublicAlbums();
+	    	}
+    	}else{
+    		if(type == null || type.trim().equals("")) {
+    			CommonUtilisateurBean.hasAuthenticatedOrRedirect();
+	    		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		    	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
+		    	if(username.equals(utilisateurCourant.getUsername())) {
+		    		initializeForOwnAlbums();
+		    	}else {
+		    		FacesContext fContext = FacesContext.getCurrentInstance();
+		        	ExternalContext extContext = fContext.getExternalContext();
+		        	try {
+		    			extContext.redirect("index.xhtml");
+		    		} catch (IOException e) {
+		    			e.printStackTrace();
+		    		}
+		    	}
+    		}else {
+    			
+    			Utilisateur otherUser = utilisateurDao.findByUsername(username);
+    			HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		    	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
+    			if(otherUser != null && (otherUser.equals(utilisateurCourant) || utilisateurCourant.getEstAdmin()) ) {
+    				if(type.equals("created")) {
+    					initializeForOtherAlbums(otherUser);
+        			}else if(type.equals("access")) {
+        				initializeAccessibleAlbums(otherUser);
+        			}
+    			}else {
+    				FacesContext fContext = FacesContext.getCurrentInstance();
+    	        	ExternalContext extContext = fContext.getExternalContext();
+    	        	try {
+    	    			extContext.redirect("connexion.xhtml");
+    	    		} catch (IOException e) {
+    	    			e.printStackTrace();
+    	    		}
+    			}
+		    	
+    			
+    			
+    			
+    			
+    			
+    		}
+    		
+    	}
+    	
+    	
+    }
+    
+    private void initializeForOwnAlbums() {
+    	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+    	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
+    	List<Album> allAlbumsList = albumDao.findAll();
+    	this.allAlbums = new ArrayList<Album>();
+    	for (Album album : allAlbumsList) {
+			if(album.getProprietaire().equals(utilisateurCourant)) {
+				allAlbums.add(album);
+			}
+		}
+		
+	}
+    
+    
+    private void initializeForOtherAlbums(Utilisateur otherUser) {
+    	List<Album> allAlbumsList = albumDao.findAll();
+    	this.allAlbums = new ArrayList<Album>();
+    	for (Album album : allAlbumsList) {
+			if(album.getProprietaire().equals(otherUser)) {
+				allAlbums.add(album);
+			}
+		}
+	}
+
+
+
+	private void initializeAccessibleAlbums(Utilisateur utilisateur) {
+    	List<Album> allAlbumsList = albumDao.findAll();
+    	for (Album album : allAlbumsList) {
+			if(userHasAccesToAlbum(utilisateur, album)) allAlbums.add(album);
+		}
+	}
+
+
+	public void initializeForAllAlbums(){
+    	if(CommonUtilisateurBean.isAdminOrRedirect()) {
     		this.allAlbums = albumDao.findAll();
-    	//}
+    	}
     }
     
-    public void initializeAllPublicAlbums(){
-    	this.allPublicAlbums = albumDao.findAllPublicAcces();
+    public void initializeForPublicAlbums(){
+    	this.allAlbums = albumDao.findAllPublicAcces();
     }
     
     public void initializeAlbumDetailsById(int id){
@@ -70,6 +168,30 @@ public class CommonAlbumBean implements Serializable {
     	Album a = albumDao.findById(id);
     	if(userCanModifyAlbumOrRedirect(utilisateurCourant, a)) {
     		albumDao.remove(a.getId());
+    		
+    		String imageLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\album_images";
+    		String oldFileName = a.getUri();
+            File oldFile = new File(imageLocation+"\\"+oldFileName);
+            oldFile.deleteOnExit();
+            
+    		FacesContext fContext = FacesContext.getCurrentInstance();
+        	ExternalContext extContext = fContext.getExternalContext();
+        	try {
+    			extContext.redirect("index.xhtml");
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	
+    }
+    
+    
+    public void supprimerAlbumBySession() {
+    	if(this.albumDetails != null) {
+    		supprimerAlbumById(this.albumDetails.getId());
+    	}else {
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Une erreur s'est produite lors de la suppression !", null));
     	}
     	
     }
@@ -84,13 +206,13 @@ public class CommonAlbumBean implements Serializable {
         this.allAlbums = allAlbums;
     }
 
-	public List<Album> getAllPublicAlbums() {
-        return this.allPublicAlbums;
-    }
-	
-	public void setAllPublicAlbums(List<Album> allPublicAlbums) {
-        this.allPublicAlbums = allPublicAlbums;
-    }
+//	public List<Album> getAllPublicAlbums() {
+//        return this.allPublicAlbums;
+//    }
+//	
+//	public void setAllPublicAlbums(List<Album> allPublicAlbums) {
+//        this.allPublicAlbums = allPublicAlbums;
+//    }
 	
 	public Album getAlbumDetails() {
         return this.albumDetails;
@@ -100,21 +222,49 @@ public class CommonAlbumBean implements Serializable {
         this.albumDetails = albumDetails;
     }
     
-	public static boolean userCanModifyAlbum(Utilisateur u, Album a ){
-    	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-    	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
-    	if(utilisateurCourant != null && utilisateurCourant.getEstAdmin()) return true;
+	public boolean getUserCanModify() {
+		return userCanModify;
+	}
+
+
+
+	public void setUserCanModify(boolean userCanModify) {
+		this.userCanModify = userCanModify;
+	}
+
+
+
+	public static boolean userCanModifyAlbumByUserAndAlbum(Utilisateur u, Album a ){
+//    	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+//    	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
+		if(u == null || a == null) return false;
+		if(u.getEstAdmin()) return true;
+		System.out.println("Album en questionoooooooooooooo "+a);
     	if(a.getProprietaire().equals(u)) return true;
     	return false;
+    	
+    }
+	
+	public boolean userCanModifyAlbumByUserSession(int albumId ){
+    	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+    	try {
+    		Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
+        	
+        	Album a = albumDao.findById(albumId);
+        	return userCanModifyAlbumByUserAndAlbum(utilisateurCourant, a);
+		} catch (Exception e) {
+			return false;
+		}
+    	
     }
 	
 	
 	public static boolean userCanModifyAlbumOrRedirect(Utilisateur u, Album a ){
-		if(userCanModifyAlbum(u, a) == false) {
+		if(userCanModifyAlbumByUserAndAlbum(u, a) == false) {
     		FacesContext fContext = FacesContext.getCurrentInstance();
         	ExternalContext extContext = fContext.getExternalContext();
         	try {
-    			extContext.redirect("index_albums.xhtml");
+    			extContext.redirect("index.xhtml");
     		} catch (IOException e) {
     			e.printStackTrace();
     		}
@@ -124,10 +274,24 @@ public class CommonAlbumBean implements Serializable {
     	return true;
     }
 	
+	public void initialiserAlbumDetailsOrRedirect(String username, int albumId) {
+		Album a = albumDao.findById(albumId);
+		Utilisateur u = utilisateurDao.findByUsername(username);
+		userHasAccesToAlbumOrRedirect(u, a);
+		this.albumDetails = a;
+		this.userCanModify = userCanModifyAlbumByUserSession(this.albumDetails.getId());
+		
+	}
+	
+	public void userHasAccesToAlbumByIdentifierOrRedirect(String username, int albumId) {
+		Album a = albumDao.findById(albumId);
+		Utilisateur u = utilisateurDao.findByUsername(username);
+		userHasAccesToAlbumOrRedirect(u, a);
+	}
 	
     public static boolean userHasAccesToAlbum(Utilisateur u, Album a ){
     	if(a.getPrive() == false) return true;
-    	if(userCanModifyAlbum(u, a)) return true;
+    	if(userCanModifyAlbumByUserAndAlbum(u, a)) return true;
     	return a.getUtilisateursAutorises().contains(u);
     }
     
@@ -136,7 +300,7 @@ public class CommonAlbumBean implements Serializable {
     		FacesContext fContext = FacesContext.getCurrentInstance();
         	ExternalContext extContext = fContext.getExternalContext();
         	try {
-    			extContext.redirect("index_albums.xhtml");
+    			extContext.redirect("index.xhtml");
     		} catch (IOException e) {
     			e.printStackTrace();
     		}
@@ -144,6 +308,27 @@ public class CommonAlbumBean implements Serializable {
     	}
     	
     	return true;
+    }
+    
+    
+    public void goToAlbumModificationPage(int id){
+    	FacesContext fContext = FacesContext.getCurrentInstance();
+    	ExternalContext extContext = fContext.getExternalContext();
+    	try {
+			extContext.redirect("modifier_album.xhtml?albumId="+id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    
+    public void goToAlbumModificationPageBySession(){
+    	if(this.albumDetails != null) {
+    		goToAlbumModificationPage(this.albumDetails.getId());
+    	}else {
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Une erreur s'est produite lors de la redirection !", null));
+    	}
     }
     
     

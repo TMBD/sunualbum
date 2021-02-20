@@ -99,14 +99,42 @@ form input:focus, form textarea:focus {
 }
 form .input-submit {
   color: white;
-  background: #e74c3c;
+  background: #1497a9;
   cursor: pointer;
+  width: 150px; 
+  margin: auto;
 }
 form .input-submit:hover {
   -moz-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
   -webkit-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
   box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+  background: #e74c3c;
+  color: white;
 }
+
+
+.fixed-bottom-button{
+  color: white;
+  background: #1497a9;
+  cursor: pointer;
+  width: 150px; 
+  margin: auto;
+  z-index: 10;
+  position: fixed;
+  bottom: 30px;
+  
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.fixed-bottom-button:hover {
+  -moz-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+  -webkit-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+  box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+  background: #e74c3c;
+}
+
+
 form textarea {
   height: 126px;
 }

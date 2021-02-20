@@ -81,7 +81,7 @@ public class ChoixAccesAlbumBean implements Serializable {
     	try {
     		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         	session.setAttribute("newAlbum", null);
-			extContext.redirect("index.xhtml");
+			extContext.redirect("album_details.xhtml?albumId="+album.getId());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}    	
@@ -89,6 +89,9 @@ public class ChoixAccesAlbumBean implements Serializable {
     
     private Set<Utilisateur> getAllAuthorisedUsers() {
     	HashSet<Utilisateur> result = new HashSet<Utilisateur>();
+//    	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+//    	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
+//    	result.add(utilisateurCourant);
 		for ( UtilisateurAcces utilisateurAcces : this.utilisateursAcces) {
 			if(utilisateurAcces.getAcces()) result.add(utilisateurAcces.getUtilisateur());
 		}

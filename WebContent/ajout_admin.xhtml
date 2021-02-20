@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core">
 	<h:head>
         <meta charset="utf-8" />
         <title>Ajout administrateur</title>
@@ -116,6 +117,18 @@
       	</div>
       </div>
       
+      
+      <c:if test="#{( !empty sessionScope['utilisateur']) and sessionScope['utilisateur'] != null}">
+      	  <div class="new-album-photo">
+			<div class="new-album" onclick="goToNewAlbum()">Nouvel album</div>
+		  </div>
+		  
+		  <script>
+			function goToNewAlbum(){
+				window.location.href = "creer_album.xhtml";
+			}
+          </script>
+      </c:if>
       
     </h:body>
 </html>

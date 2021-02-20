@@ -60,5 +60,17 @@
 		  
 	    </div>
 		
+		<c:if test="#{( !empty sessionScope['utilisateur']) and sessionScope['utilisateur'] != null}">
+      	  <div class="new-album-photo">
+			<div class="new-album" onclick="goToNewAlbum()">Nouvel album</div>
+		  </div>
+		  
+		  <script>
+			function goToNewAlbum(){
+				window.location.href = "creer_album.xhtml";
+			}
+          </script>
+        </c:if>
+      
 	</h:body>
 </html>

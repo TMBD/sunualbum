@@ -14,6 +14,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -27,11 +28,10 @@ import org.apache.myfaces.custom.fileupload.UploadedFile;
 import beans.persistent.Album;
 import beans.persistent.Utilisateur;
 import dao.AlbumDao;
-import utils.PropertiesUtil;
 
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class CreationAlbumBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -52,7 +52,6 @@ public class CreationAlbumBean implements Serializable {
     public void save() throws IOException {
     	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     	Utilisateur proprietaire = (Utilisateur)session.getAttribute("utilisateur");
-    	if(proprietaire == null) proprietaire = (Utilisateur)session.getAttribute("admin"); 
     	
     	if(proprietaire != null) {
     		String nomFichier = FilenameUtils.getName( fichier.getName() );
@@ -74,11 +73,14 @@ public class CreationAlbumBean implements Serializable {
                 
                 try {
                     // Create file with unique name in upload folder and write to it.
-                	PropertiesUtil configProperties = new PropertiesUtil("C:\\Users\\thier\\Documents\\gitclones\\dgi_workspace\\jee\\sunualbum\\build\\classes\\utils\\config.properties");
-                	//String imageLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\album_images";
-                	String imageLocation = configProperties.getValue("location.album");
+                	//PropertiesUtil configProperties = new PropertiesUtil("C:\\Users\\thier\\Documents\\gitclones\\dgi_workspace\\jee\\sunualbum\\build\\classes\\utils\\config.properties");
+                	//String imageLocation = configProperties.getValue("location.album");
+                	String imageLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\album_images";
+                	//String imageLocation = "\\..\\..\\..\\..\\resources\\uploaded\\album_images";
                 	System.out.println(imageLocation);
+                	
                 	file = File.createTempFile(prefix + "_", "." + suffix, new File(imageLocation));
+                	
                     output = new FileOutputStream(file);
                     IOUtils.copy(fichier.getInputStream(), output);
                     String fileName = file.getName();
@@ -104,7 +106,7 @@ public class CreationAlbumBean implements Serializable {
             			}
                     }else {
                     	try {
-            				extContext.redirect("index.xhtml");
+                    		extContext.redirect("album_details.xhtml?albumId="+album.getId());
             			} catch (IOException e) {
             				e.printStackTrace();
             			}

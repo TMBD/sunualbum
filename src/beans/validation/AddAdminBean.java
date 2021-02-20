@@ -33,9 +33,10 @@ public class AddAdminBean implements Serializable {
     // d'inscription
     public void subcribe() {
     	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-    	Utilisateur connectedAdmin = (Utilisateur) session.getAttribute("admin");
+    	Utilisateur connectedAdmin = (Utilisateur) session.getAttribute("utilisateur");
     	if(connectedAdmin != null && ((connectedAdmin.getUsername().equals("a") && connectedAdmin.getPassword().equals("a")) || utilisateurDao.estAdmin(connectedAdmin.getUsername(), connectedAdmin.getPassword()))) {
     		initialiserDateInscription();
+    		admin.setEstAdmin(true);
 	        utilisateurDao.add( admin );
 	        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Admin ajouté avec succès", null );
 	        FacesContext.getCurrentInstance().addMessage( null, message );
