@@ -30,11 +30,11 @@
 		     </c:if>
 	      	
 	        <li><a href="index.xhtml">ALBUMS</a></li>
-	        <li><a href="index.xhtml">PHOTOS</a></li> 
+	        <li><a href="index_photos.xhtml">PHOTOS</a></li> 
 	        
 	        <c:if test="#{sessionScope['utilisateur'] != null}">
 	          <li><a href="index.xhtml?username=#{sessionScope['utilisateur'].username}">MES ALBUMS</a></li>
-	          <li><a href="photos_utilisateur.xhtml">MES PHOTOS</a></li>
+	          <li><a href="index_photos.xhtml?username=#{sessionScope['utilisateur'].username}">MES PHOTOS</a></li>
 	        </c:if>
 	      	
 	      	<c:if test="#{sessionScope['utilisateur'] != null and sessionScope['utilisateur'].estAdmin}">

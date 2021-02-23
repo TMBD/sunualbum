@@ -15,7 +15,7 @@
     </h:head>
     <h:body>
 	  <f:metadata>
-		 <f:viewAction action="#{commonAlbumBean.initListAlbums(param['username'], param['type'])}" />
+		 <f:viewAction action="#{commonPhotoBean.initListPhotos(param['albumId'], param['username'], param['type'])}" />
 	  </f:metadata>
 	  
       <ui:include src="menu_header.xhtml" />
@@ -23,18 +23,17 @@
 		<div class="container-test">
 		  <div class="container-fluid">
 		    <div class="row">
-		    
-
-				    <ui:repeat value = "#{commonAlbumBean.allAlbums}" var = "album">
+					
+				    <ui:repeat value = "#{commonPhotoBean.allPhotos}" var = "photo">
 				    	<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-						    <div class="content" onclick="gotoPhotos('#{ album.id }')">
+						    <div class="content" onclick="displayImage('#{ photo.id }')">
 						      <div class="content-overlay"></div>
-						      <img class="image" id="#{ album.id }" src="resources\uploaded\album_images\/#{album.uri }" alt="#{ album.titre }"/>
+						      <img class="image" id="#{ photo.id }" src="resources\uploaded\photo_images\/#{photo.uri }" alt="#{ photo.titre }"/>
 						      <div class="content-details">
-						        <h2 class="details-title">#{ album.titre }</h2>
-						        <p>#{ album.description }</p>
-						        <a href="album_details.xhtml?albumId=#{ album.id }">
-							    	<h2 class="overlayer-title">Voir détails</h2>
+						        <h2 class="details-title">#{ photo.titre }</h2>
+						        <p>#{ photo.description }</p>
+						        <a href="photo_details.xhtml?photoId=#{ photo.id }">
+							    	<h3 class="overlayer-title">Voir détails</h3>
 							    </a>
 						      </div>
 						    </div>
@@ -43,20 +42,19 @@
 				    </ui:repeat>
 				    
 			    	
-		    
 		    </div> <!-- end div row -->
 		  </div> <!-- end div container-fluid -->
 		</div> <!-- end div container-test -->
       </div> <!-- end div my-container -->
       
-      <c:if test="#{( !empty sessionScope['utilisateur']) and sessionScope['utilisateur'] != null}">
+      <c:if test="#{( !empty sessionScope['utilisateur']) and sessionScope['utilisateur'] != null and !empty param['albumId'] and param['albumId'] != null and commonAlbumBean.userCanModifyAlbumByUserSession(param['albumId'])}">
       	  <div class="new-album-photo">
-			<div class="new-album" onclick="goToNewAlbum()">Nouvel album</div>
+			<div class="new-photo" onclick="goToNewPhoto()">Nouvelle photo</div>
 		  </div>
 		  
 		  <script>
-			function goToNewAlbum(){
-				window.location.href = "creer_album.xhtml";
+			function goToNewPhoto(){
+				window.location.href = "creer_photo.xhtml?albumId="+#{param['albumId']};
 			}
       	  </script>
       </c:if>

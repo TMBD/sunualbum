@@ -41,10 +41,6 @@ public class ConnectionBean implements Serializable {
     
     
     public void disconnect() {
-//    	String parameter = (String) FacesContext.getCurrentInstance()
-//    										.getExternalContext()
-//    										.getRequestParameterMap()
-//    										.get("action");
 		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		session.removeAttribute("utilisateur");
     	

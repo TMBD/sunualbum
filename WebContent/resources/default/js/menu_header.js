@@ -49,9 +49,11 @@ function displayImage(imageTagId){
     if($image.height() < $blackout.height()){
       $image.css("marginTop", ($blackout.height() - $image.height()) / 2);
     }
-    
 	
-	
+}
+
+function gotoPhotos(albumId){
+	window.location.href = "index_photos.xhtml?albumId="+albumId;
 }
 
 

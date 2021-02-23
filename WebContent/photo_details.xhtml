@@ -6,7 +6,7 @@
       xmlns:c="http://java.sun.com/jstl/core">
 	<h:head>
         <meta charset="utf-8" />
-        <title>Album</title>
+        <title>Photo</title>
         <h:outputStylesheet library="default" name="css/form.css"  />
         <h:outputStylesheet library="default" name="css/bootstrap.min.css"  />
         <h:outputStylesheet library="default" name="css/commons.css"  />
@@ -14,72 +14,83 @@
     </h:head>
     <h:body>
 	  <f:metadata>
-		 <f:event type="preRenderView" listener="#{commonAlbumBean.initialiserAlbumDetailsOrRedirect(sessionScope['utilisateur'].username, param['albumId'])}"/>
+		 <f:event type="preRenderView" listener="#{commonPhotoBean.initialiserPhotoDetailsOrRedirect(sessionScope['utilisateur'].username, param['photoId'])}"/>
 	  </f:metadata>
       <ui:include src="menu_header.xhtml" /> 
     
       <div class="my-container">
       	<div class="profil-container">
 			<div class="profil-items-container">
-			<h3 class="profil-title">Détails album</h3>
+			<h3 class="profil-title">Détails photo</h3>
 				<div class="profil-item-line">
 					<h:outputLabel class="user-info-item-key">Titre : </h:outputLabel>
-		     		<h:outputLabel class="user-info-item-value">#{commonAlbumBean.albumDetails.titre}</h:outputLabel>
-				</div>
-		     	
-		     	<div class="profil-item-line">
-					<h:outputLabel class="user-info-item-key">Theme : </h:outputLabel>
-		     		<h:outputLabel class="user-info-item-value">#{commonAlbumBean.albumDetails.theme}</h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.photoDetails.titre}</h:outputLabel>
 				</div>
 				
 				<div class="profil-item-line">
-					<h:outputLabel class="user-info-item-key">Accès : </h:outputLabel>
-		     		<h:outputLabel class="user-info-item-value">#{commonAlbumBean.albumDetails.prive ? 'Privé':'Publique'}</h:outputLabel>
+					<h:outputLabel class="user-info-item-key">Hauteur : </h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.photoDetails.hauteur}</h:outputLabel>
+				</div>
+				
+				<div class="profil-item-line">
+					<h:outputLabel class="user-info-item-key">Largeur : </h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.photoDetails.largeur}</h:outputLabel>
 				</div>
 				
 				<div class="profil-item-line">
 					<h:outputLabel class="user-info-item-key">Description : </h:outputLabel>
-		     		<h:outputLabel class="user-info-item-value">#{commonAlbumBean.albumDetails.description}</h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.photoDetails.description}</h:outputLabel>
 				</div>
 				
 				<div class="profil-item-line">
 					<h:outputLabel class="user-info-item-key">Mots clés : </h:outputLabel>
-		     		<h:outputLabel class="user-info-item-value">#{commonAlbumBean.motsCles == "" ? "Pas de mots clés":commonAlbumBean.motsCles}</h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.motsCles == "" ? "Pas de mots clés":commonPhotoBean.motsCles}</h:outputLabel>
 				</div>
 				
 				<div class="profil-item-line">
 					<h:outputLabel class="user-info-item-key">Date de création : </h:outputLabel>
-		     		<h:outputLabel class="user-info-item-value">#{commonAlbumBean.albumDetails.dateCreation}</h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.photoDetails.dateCreation}</h:outputLabel>
 				</div>
 				
 				<div class="profil-item-line">
 					<h:outputLabel class="user-info-item-key">Dernière mise à jour : </h:outputLabel>
-		     		<h:outputLabel class="user-info-item-value">#{commonAlbumBean.albumDetails.dateMiseAJour != null ? commonAlbumBean.albumDetails.dateMiseAJour : 'Pas de mise à jour'}</h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.photoDetails.dateMiseAJour != null ? commonPhotoBean.photoDetails.dateMiseAJour : 'Pas de mise à jour'}</h:outputLabel>
+				</div>
+				
+				<div class="profil-item-line">
+					<h:outputLabel class="user-info-item-key">Thème album : </h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.photoDetails.album.theme}</h:outputLabel>
+				</div>
+				
+				<div class="profil-item-line">
+					<h:outputLabel class="user-info-item-key">Titre album : </h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.photoDetails.album.titre}</h:outputLabel>
 				</div>
 				
 				<div class="profil-item-line">
 					<h:outputLabel class="user-info-item-key">Prénom proprietaire : </h:outputLabel>
-		     		<h:outputLabel class="user-info-item-value">#{commonAlbumBean.albumDetails.proprietaire.prenom}</h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.photoDetails.album.proprietaire.prenom}</h:outputLabel>
 				</div>
 				
 				<div class="profil-item-line">
 					<h:outputLabel class="user-info-item-key">Nom proprietaire : </h:outputLabel>
-		     		<h:outputLabel class="user-info-item-value">#{commonAlbumBean.albumDetails.proprietaire.nom}</h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.photoDetails.album.proprietaire.nom}</h:outputLabel>
 				</div>
 				
 				<div class="profil-item-line">
 					<h:outputLabel class="user-info-item-key">Nom utilisateur proprietaire : </h:outputLabel>
-		     		<h:outputLabel class="user-info-item-value">#{commonAlbumBean.albumDetails.proprietaire.username}</h:outputLabel>
+		     		<h:outputLabel class="user-info-item-value">#{commonPhotoBean.photoDetails.album.proprietaire.username}</h:outputLabel>
 				</div>
 		 	</div>
 	
-			<h:panelGroup layout="block" class="action-link-div" rendered="#{commonAlbumBean.userCanModify}">
+			<h:panelGroup layout="block" class="action-link-div" rendered="#{commonPhotoBean.userCanModify}">
+			
 				<div class="madifier-button-details">
-					<h:form>
+					<h:form >
 						<h:messages globalOnly="true" errorClass="erreur" infoClass="info" /><br />
 						<h:commandButton 
 				        	value="Modifier" 
-				        	action="#{commonAlbumBean.goToAlbumModificationPageBySession()}" 
+				        	action="#{commonPhotoBean.goToPhotoModificationPageBySession()}" 
 				        	styleClass="sansLabel"
 				        	class="button-modifier">
 				        	<f:ajax execute="@form" render="@form" />
@@ -87,24 +98,22 @@
 				    </h:form>
 				</div>
 				
-			    <div class="supprimer-button-details">
-			    	<h:form onsubmit="return confirmeSuppression()">
-			    	<h:messages globalOnly="true" errorClass="erreur" infoClass="info" /><br />
+				<div class="supprimer-button-details">
+					<h:form onsubmit="return confirmeSuppression()" >
+						<h:messages globalOnly="true" errorClass="erreur" infoClass="info" /><br />
 				        <h:commandButton 
 				        	value="Supprimer" 
-				        	action="#{commonAlbumBean.supprimerAlbumBySession()}" 
+				        	action="#{commonPhotoBean.supprimerPhotoBySession()}" 
 				        	styleClass="sansLabel"
 				        	class="button-supprimer">
 				        </h:commandButton>
-					</h:form>
-			    
-			    </div>
-			    
+				</h:form>
+				</div>
+			        
 			</h:panelGroup>
  
 	        <br />
 	        
-			
       	</div>
       </div>
       

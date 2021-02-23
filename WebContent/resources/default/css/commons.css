@@ -29,6 +29,7 @@
 	left: 50%;
 	transform: translateX(-50%);
 	
+	max-width: 450px;
 	
 	-moz-box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.3);
 	-webkit-box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.3);
@@ -83,7 +84,19 @@
 
 
 .action-link-div{
-	margin-top: 20px;
+	margin-top: 10px;
+}
+
+.madifier-button-details{
+	float: left;
+	margin-left: 10px;
+	margin-right: 5px;
+}
+
+.supprimer-button-details{
+	float: right;
+	margin-right: 10px;
+	margin-left: 5px;
 }
 
 .modify-link{
@@ -208,4 +221,21 @@
 .new-album-photo:hover{
 	background-color: #e74c3c;
 }
+
+.consulter-photo-alink{
+	float: left;
+	margin-left: 30%;
+}
+
+
+.details-album-alink{
+	float: right;
+	margin-right: 30%;
+}
+
+
+.consulter-photos-and-details-album-alink{
+
+}
+
 

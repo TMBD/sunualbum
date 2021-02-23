@@ -13,7 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 
@@ -34,20 +37,20 @@ public class Photo {
 	
 	@NotNull( message = "Veuillez donner une description de votre photo" )
 	@Size( min = 3, message = "La description doit contenir au moins 3 caractères" )
-	@Size( max=50, message = "La description doit contenir au maximun 50 caractères" )
-	@Column(unique = true, nullable = false)
+	@Size( max=200, message = "La description doit contenir au maximun 200 caractères" )
+	@Column(nullable = false)
 	private String description;
 	
 	@NotNull( message = "Veuillez saisir la hauteur de l'image en pixel" )
-	@Size( min = 1, message = "La hauteur doit être suppérieure à 0" )
-	@Size( max=Integer.MAX_VALUE, message = "La hauteur doit être inférieur à "+Integer.MAX_VALUE )
+	@Min(value = 0L, message = "La hauteur doit être positive")
+	@Max(value = Integer.MAX_VALUE, message = "La valeur maximale autorisé est "+Integer.MAX_VALUE)
 	@Column(nullable = false)
 	private Integer hauteur;
 	
 	@NotNull( message = "Veuillez saisir la largeur de l'image en pixel" )
-	@Size( min = 1, message = "La largeur doit être suppérieure à 0" )
-	@Size( max=Integer.MAX_VALUE, message = "La largeur doit être inférieur à "+Integer.MAX_VALUE )
-	@Column(unique = true, nullable = false)
+	@Min(value = 0L, message = "La largeur doit être positive")
+	@Max(value = Integer.MAX_VALUE, message = "La largeur maximale autorisé est "+Integer.MAX_VALUE)
+	@Column(nullable = false)
 	private Integer largeur;
 
 	@Column( nullable = false)

@@ -63,12 +63,13 @@ public class ChoixAccesAlbumBean implements Serializable {
 
     private void initialiserUtilisateurAcces() {
     	List<Utilisateur> utilisateurs = utilisateurDao.findAll();
+    	if(utilisateurs == null) return;
+    	if(album == null) return;
     	utilisateurs.remove(album.getProprietaire());
     	
     	for (Utilisateur utilisateur : utilisateurs) {
 			this.utilisateursAcces.add(new UtilisateurAcces(utilisateur, hasAccess(utilisateur.getUsername())));
 		}
-    	System.out.println("Utilisateurs sans proprio = "+utilisateurs);
 		
 	}
 

@@ -69,27 +69,6 @@ public class AlbumDao {
 		em.remove(findById(id));
 	}
 
-	
-
-
-
-//	public List<Album> findByMail(String email) {
-//		try {
-//			return em.createNamedQuery("adminByEmail").setParameter("email", email).getResultList();
-//		} catch (Exception e) {
-//			return null;
-//		}
-//	}
-
-	
-//	public Album findByUsername(String username) {
-//		try {
-//			return (Album) em.createNamedQuery("adminByUsername").setParameter("username", username).getSingleResult();
-//		} catch (Exception e) {
-//			return null;
-//		}
-//	}
-	
 
 	 
 }

@@ -1,4 +1,4 @@
-package beans.validation;
+ package beans.validation;
 
 
 import java.io.File;
@@ -19,45 +19,49 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 
 import beans.persistent.Album;
+import beans.persistent.Photo;
 import beans.persistent.Utilisateur;
 import dao.AlbumDao;
+import dao.PhotoDao;
 
 
 @ManagedBean
 @ViewScoped
-public class CreationAlbumBean implements Serializable {
+public class CreationPhotoBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EJB
     AlbumDao albumDao;
     
-    private Album           album;
+    @EJB
+    PhotoDao photoDao;
+    
+    private Album album;
+    private Photo photo;
     private String chaineMotCle;
     
-    @NotNull( message = "Veuillez sélectionner l'image de l'album" )
+    @NotNull( message = "Veuillez selectionner l'image de la photo !" )
     private UploadedFile fichier;
 
-    // Initialisation du bean fichier
-    public CreationAlbumBean() {
-        album = new Album();
+    public CreationPhotoBean() {
+        this.album = new Album();
+        this.photo = new Photo();
+    }
+    
+    public void initAlbum(int albumId) {
+    	this.album = albumDao.findById(albumId);
     }
 
     public void save() throws IOException {
     	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     	Utilisateur proprietaire = (Utilisateur)session.getAttribute("utilisateur");
-    	
-    	if(proprietaire != null) {
-    		String nomFichier = FilenameUtils.getName( fichier.getName() );
-            String tailleFichier = FileUtils.byteCountToDisplaySize( fichier.getSize() );
+    	if(proprietaire != null && this.album.getProprietaire().equals(proprietaire)) {
             String typeFichier = fichier.getContentType();
-            byte[] contenuFichier = fichier.getBytes();
             
 
             if(typeFichier.contains("image")) {
@@ -72,12 +76,7 @@ public class CreationAlbumBean implements Serializable {
                 OutputStream output = null;
                 
                 try {
-                    // Create file with unique name in upload folder and write to it.
-                	//PropertiesUtil configProperties = new PropertiesUtil("C:\\Users\\thier\\Documents\\gitclones\\dgi_workspace\\jee\\sunualbum\\build\\classes\\utils\\config.properties");
-                	//String imageLocation = configProperties.getValue("location.album");
-                	String imageLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\album_images";
-                	//String imageLocation = "\\..\\..\\..\\..\\resources\\uploaded\\album_images";
-                	System.out.println(imageLocation);
+                	String imageLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\photo_images";
                 	
                 	file = File.createTempFile(prefix + "_", "." + suffix, new File(imageLocation));
                 	
@@ -87,38 +86,27 @@ public class CreationAlbumBean implements Serializable {
                     
                     initialiserDateCreation();
                     initialiserMotsCles();
-                    album.setUri(fileName);
-                	album.setProprietaire(proprietaire);
+                    photo.setUri(fileName);
+                    
+                	photo.setAlbum(this.album);
                 	
-                	session.setAttribute("newAlbum", album);
 
-                	albumDao.add(album);
+                	photoDao.add(photo);
                 	
                     //SETTING THINGS FOR REDIRECTION
                     FacesContext fContext = FacesContext.getCurrentInstance();
                 	ExternalContext extContext = fContext.getExternalContext();
-                	
-                    if(album.getPrive()) {
-                    	try {
-            				extContext.redirect("choix_acces_album.xhtml");
-            			} catch (IOException e) {
-            				e.printStackTrace();
-            			}
-                    }else {
-                    	try {
-                    		extContext.redirect("album_details.xhtml?albumId="+album.getId());
-            			} catch (IOException e) {
-            				e.printStackTrace();
-            			}
-                    }
+                	try {
+                		extContext.redirect("photo_details.xhtml?photoId="+this.photo.getId());
+        			} catch (IOException e) {
+        				e.printStackTrace();
+        			}
                     
                 } catch (IOException e) {
                     if (file != null) file.delete();
 
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
                         FacesMessage.SEVERITY_ERROR, "Une erreur s'est produite lors de l'enregistrement de l'image.", null));
-
-                    
                     e.printStackTrace();
                 } finally {
                     IOUtils.closeQuietly(output);
@@ -131,8 +119,11 @@ public class CreationAlbumBean implements Serializable {
             	FacesContext.getCurrentInstance().addMessage( null, message );
             }
 
-    	}else { //absence de session utilisateur et admin
-    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Vous devez etre authentifié pour pourvoir creer un album", null) ;
+    	}else if(proprietaire == null){
+    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Vous devez etre authentifié pour pourvoir creer un album !", null) ;
+        	FacesContext.getCurrentInstance().addMessage( null, message );
+    	} else { //absence de session utilisateur et admin
+    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Vous ne pouvez creer que des photos de votre propre album !", null) ;
         	FacesContext.getCurrentInstance().addMessage( null, message );
     	}
     	
@@ -141,7 +132,15 @@ public class CreationAlbumBean implements Serializable {
     }
     
 
-    public Album getAlbum() {
+    public Photo getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(Photo photo) {
+		this.photo = photo;
+	}
+
+	public Album getAlbum() {
         return album;
     }
 
@@ -169,7 +168,7 @@ public class CreationAlbumBean implements Serializable {
     
     private void initialiserDateCreation() {
         Timestamp date = new Timestamp( System.currentTimeMillis() );
-        album.setDateCreation( date );
+        this.photo.setDateCreation( date );
     }
     
     void initialiserMotsCles() {
@@ -179,6 +178,6 @@ public class CreationAlbumBean implements Serializable {
 			listMotsCles.add(splitedKeyWords[i]);
 		}
     	
-    	album.setMotsCles(listMotsCles);
+    	photo.setMotsCles(listMotsCles);
     }
 }

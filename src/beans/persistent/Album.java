@@ -23,11 +23,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-//@NamedQuery(
-//		name="updateAlbumById", 
-//		query="UPDATE Album a SET a.utilisateursAutorises = :utilisateurs WHERE a.id = :id"
-//	)
-
 @Entity
 public class Album {
 	
@@ -62,7 +57,7 @@ public class Album {
 	
 	@NotNull( message = "Veuillez donner une description de votre album" )
 	@Size( min = 3, message = "La description doit contenir au moins 3 caractères" )
-	@Size( max=50, message = "La description doit contenir au maximun 50 caractères" )
+	@Size( max=200, message = "La description doit contenir au maximun 200 caractères" )
 	@Column(nullable = false)
 	private String description;
 
@@ -324,7 +319,7 @@ public class Album {
 	@Override
 	public String toString() {
 		return "Album [id=" + id + ", proprietaire=" + proprietaire + ", utilisateursAutorises=" + utilisateursAutorises
-				+ ", photos=" + photos + ", theme=" + theme + ", prive=" + prive + ", titre=" + titre + ", description="
+			    + ", theme=" + theme + ", prive=" + prive + ", titre=" + titre + ", description="
 				+ description + ", motsCles=" + motsCles + ", dateCreation=" + dateCreation + ", dateMiseAJour="
 				+ dateMiseAJour + ", uri=" + uri + "]";
 	}

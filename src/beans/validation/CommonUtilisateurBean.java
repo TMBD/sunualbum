@@ -52,11 +52,23 @@ public class CommonUtilisateurBean implements Serializable {
 
     
     public void supprimerUtilisateurByUsername(String username) {
+		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+
+    	if(username == null) {
+    		FacesContext fContext = FacesContext.getCurrentInstance();
+        	ExternalContext extContext = fContext.getExternalContext();
+        	try {
+        		session.removeAttribute("utilisateur");
+    			extContext.redirect("index.xhtml");
+    			return;
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    	}
     	try {
     		if(isAdminOrSelProfilOrRedirect(username)) {
         		utilisateurDao.delete(username);
         		
-        		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
             	if(utilisateurCourant.getEstAdmin()) {
             		FacesContext fContext = FacesContext.getCurrentInstance();
@@ -119,6 +131,16 @@ public class CommonUtilisateurBean implements Serializable {
     }
     
     public static boolean isAdminOrSelProfilOrRedirect(String username) {
+    	if(username == null) {
+    		FacesContext fContext = FacesContext.getCurrentInstance();
+        	ExternalContext extContext = fContext.getExternalContext();
+        	try {
+    			extContext.redirect("connexion.xhtml");
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+        	return false;
+    	}
     	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
     	if(utilisateurCourant != null && (utilisateurCourant.getEstAdmin() || utilisateurCourant.getUsername().equals(username))) {

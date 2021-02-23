@@ -37,7 +37,7 @@ public class CommonAlbumBean implements Serializable {
     //private List<Album> allPublicAlbums;
     private Album albumDetails = null;
     private boolean userCanModify = false;
-    
+    private String motsCles = "";
 
 
     public CommonAlbumBean() {
@@ -112,6 +112,7 @@ public class CommonAlbumBean implements Serializable {
     	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
     	List<Album> allAlbumsList = albumDao.findAll();
+    	if(allAlbumsList == null) return;
     	this.allAlbums = new ArrayList<Album>();
     	for (Album album : allAlbumsList) {
 			if(album.getProprietaire().equals(utilisateurCourant)) {
@@ -125,6 +126,7 @@ public class CommonAlbumBean implements Serializable {
     private void initializeForOtherAlbums(Utilisateur otherUser) {
     	List<Album> allAlbumsList = albumDao.findAll();
     	this.allAlbums = new ArrayList<Album>();
+    	if(allAlbumsList == null) return;
     	for (Album album : allAlbumsList) {
 			if(album.getProprietaire().equals(otherUser)) {
 				allAlbums.add(album);
@@ -136,6 +138,7 @@ public class CommonAlbumBean implements Serializable {
 
 	private void initializeAccessibleAlbums(Utilisateur utilisateur) {
     	List<Album> allAlbumsList = albumDao.findAll();
+    	if(allAlbumsList == null) return;
     	for (Album album : allAlbumsList) {
 			if(userHasAccesToAlbum(utilisateur, album)) allAlbums.add(album);
 		}
@@ -145,11 +148,13 @@ public class CommonAlbumBean implements Serializable {
 	public void initializeForAllAlbums(){
     	if(CommonUtilisateurBean.isAdminOrRedirect()) {
     		this.allAlbums = albumDao.findAll();
+    		if(this.allAlbums == null) this.allAlbums = new ArrayList<Album>();
     	}
     }
     
     public void initializeForPublicAlbums(){
     	this.allAlbums = albumDao.findAllPublicAcces();
+    	if(this.allAlbums == null) this.allAlbums = new ArrayList<Album>();
     }
     
     public void initializeAlbumDetailsById(int id){
@@ -158,11 +163,25 @@ public class CommonAlbumBean implements Serializable {
     	Album a = albumDao.findById(id);
     	if(userHasAccesToAlbumOrRedirect(utilisateurCourant, a)) {
     		this.albumDetails = a;
+    		if(this.allAlbums == null) this.allAlbums = new ArrayList<Album>();
+    		initStringMotsCles();
     	}
     }
 
     
-    public void supprimerAlbumById(int id) {
+    private void initStringMotsCles() {
+    	System.out.println("mot cles : "+motsCles);
+		this.motsCles = "";
+		if(albumDetails == null) albumDetails = new Album();
+		for (String mot : albumDetails.getMotsCles()) {
+			this.motsCles += mot+" ";
+		}
+		
+	}
+
+
+
+	public void supprimerAlbumById(int id) {
     	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
     	Album a = albumDao.findById(id);
@@ -234,6 +253,18 @@ public class CommonAlbumBean implements Serializable {
 
 
 
+	public String getMotsCles() {
+		return motsCles;
+	}
+
+
+
+	public void setMotsCles(String motsCles) {
+		this.motsCles = motsCles;
+	}
+
+
+
 	public static boolean userCanModifyAlbumByUserAndAlbum(Utilisateur u, Album a ){
 //    	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 //    	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
@@ -280,6 +311,7 @@ public class CommonAlbumBean implements Serializable {
 		userHasAccesToAlbumOrRedirect(u, a);
 		this.albumDetails = a;
 		this.userCanModify = userCanModifyAlbumByUserSession(this.albumDetails.getId());
+		initStringMotsCles();
 		
 	}
 	
@@ -290,6 +322,7 @@ public class CommonAlbumBean implements Serializable {
 	}
 	
     public static boolean userHasAccesToAlbum(Utilisateur u, Album a ){
+    	if(a == null || u == null) return false;
     	if(a.getPrive() == false) return true;
     	if(userCanModifyAlbumByUserAndAlbum(u, a)) return true;
     	return a.getUtilisateursAutorises().contains(u);
@@ -331,9 +364,6 @@ public class CommonAlbumBean implements Serializable {
     	}
     }
     
-    
-    
 
-    
     
 }

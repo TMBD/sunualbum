@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://java.sun.com/jstl/core">
+    <h:head>
+        <title>Modification de photo</title>
+        <h:outputStylesheet library="default" name="css/form.css"  />
+        <h:outputStylesheet library="default" name="css/bootstrap.min.css"  />
+        <h:outputStylesheet library="default" name="css/commons.css"  />
+    </h:head>
+    <h:body>
+      <f:metadata>
+		 <f:viewAction action="#{modificationPhotoBean.init(param['photoId'])}" />
+	  </f:metadata>
+        <ui:include src="menu_header.xhtml" />
+        
+        <div class="my-container">
+      	  <div class="div-center">
+      		<h:form enctype="multipart/form-data" class="cf" id="registration-form">
+	         	<h1>Modification de photo</h1>
+        			<div class="cf">
+        			
+		                <h:outputLabel for="titre">Titre <span class="requis">*</span></h:outputLabel><br/>
+		                <h:message id="titreMessage" for="titre" errorClass="erreur error-message" />
+		                <h:inputText id="titre" value="#{modificationPhotoBean.photo.titre}" class="text-input"/>
+		                <br />
+		                
+		                <h:outputLabel for="description">Description <span class="requis">*</span></h:outputLabel><br/>
+		                <h:message id="descriptionMessage" for="description" errorClass="erreur error-message" />
+		                <h:inputText id="description" value="#{modificationPhotoBean.photo.description}" class="text-input"/>
+		                <br />
+		                
+		                <h:outputLabel for="hauteur">Hauteur (en pixel) <span class="requis">*</span></h:outputLabel><br/>
+		                <h:message id="hauteurMessage" for="hauteur" errorClass="erreur error-message" />
+		                <h:inputText id="hauteur" value="#{modificationPhotoBean.photo.hauteur}" class="text-input">
+		                	<f:convertNumber integerOnly="true"/>
+		                </h:inputText>
+		                <br />
+		                
+		                <h:outputLabel for="largeur">Largeur (en pixel) <span class="requis">*</span></h:outputLabel><br/>
+		                <h:message id="largeurMessage" for="largeur" errorClass="erreur error-message" />
+		                <h:inputText id="largeur" value="#{modificationPhotoBean.photo.largeur}" class="text-input"/>
+		                <br />
+		                
+		                <h:outputLabel for="motsCles">Mots clés </h:outputLabel><br/>
+		                <h:message id="motsClesMessage" for="motsCles" errorClass="erreur error-message" />
+		                <h:inputText id="motsCles" value="#{modificationPhotoBean.chaineMotCle}" class="text-input" a:placeholder="liste des mots clés séparés par des espaces"/>
+		                <br />
+		
+		                <h:outputLabel for="fichier">Emplacement du fichier <span class="requis">*</span></h:outputLabel><br/>
+		                <h:message id="fichierMessage" for="fichier" errorClass="erreur error-message" />
+		                <t:inputFileUpload id="fichier" value="#{modificationPhotoBean.fichier}" accept="image/*">
+		                	<f:validator validatorId="tailleMaxImageValidator" />
+		                </t:inputFileUpload>
+		                <br />
+	                
+	                </div>
+	                
+	                <h:messages globalOnly="true" errorClass="erreur" infoClass="info" /><br />
+	                
+	                <h:commandButton value="Valider" action="#{modificationPhotoBean.save}" styleClass="sansLabel" class="input-submit"/>
+	                <br />
+	            
+			  </h:form> 
+	      	</div>
+	      </div>
+      
+        <c:if test="#{( !empty sessionScope['utilisateur']) and sessionScope['utilisateur'] != null}">
+      	  <div class="new-album-photo">
+			<div class="new-album" onclick="goToNewAlbum()">Nouvel album</div>
+		  </div>
+		  
+		  <script>
+			function goToNewAlbum(){
+				window.location.href = "creer_album.xhtml";
+			}
+          </script>
+      </c:if>
+	        
+    </h:body> 
+</html>

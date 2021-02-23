@@ -26,37 +26,37 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 
-import beans.persistent.Album;
+import beans.persistent.Photo;
 import beans.persistent.Utilisateur;
-import dao.AlbumDao;
+import dao.PhotoDao;
 
 
 @ManagedBean
 @ViewScoped
-public class ModificationAlbumBean implements Serializable {
+public class ModificationPhotoBean implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    @EJB
-    AlbumDao albumDao;
     
-    private Album           album;
+    @EJB
+    PhotoDao photoDao;
+    
+    private Photo           photo;
     private String chaineMotCle;
     
     private UploadedFile fichier = null;
 
-    public ModificationAlbumBean() {
-        album = new Album();
+    public ModificationPhotoBean() {
+        this.photo = new Photo();
     }
 
     
-    public void init(int albumId){
+    public void init(int photoId){
     	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
-    	Album a = albumDao.findById(albumId);
-    	CommonAlbumBean.userCanModifyAlbumOrRedirect(utilisateurCourant, a);
-    	this.album = a;
+    	Photo p = photoDao.findById(photoId);
+    	CommonPhotoBean.userCanModifyPhotoOrRedirect(utilisateurCourant, p);
+    	this.photo = p;
     	String resultatMotsCle = "";
-    	for (String mot : a.getMotsCles()) {
+    	for (String mot : p.getMotsCles()) {
 			resultatMotsCle += " " + mot;
 		}
     	
@@ -67,7 +67,7 @@ public class ModificationAlbumBean implements Serializable {
     public void save() throws IOException {
     	HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
-    	CommonAlbumBean.userCanModifyAlbumOrRedirect(utilisateurCourant, this.album);
+    	CommonPhotoBean.userCanModifyPhotoOrRedirect(utilisateurCourant, this.photo);
     	
     	if(utilisateurCourant != null) {
             
@@ -85,12 +85,7 @@ public class ModificationAlbumBean implements Serializable {
                     OutputStream output = null;
                     
                     try {
-                        // Create file with unique name in upload folder and write to it.
-                    	//PropertiesUtil configProperties = new PropertiesUtil("C:\\Users\\thier\\Documents\\gitclones\\dgi_workspace\\jee\\sunualbum\\build\\classes\\utils\\config.properties");
-                    	//String imageLocation = configProperties.getValue("location.album");
-                    	String imageLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\album_images";
-                    	//String imageLocation = "\\..\\..\\..\\..\\resources\\uploaded\\album_images";
-                    	System.out.println(imageLocation);
+                    	String imageLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\photo_images";
                     	
                     	file = File.createTempFile(prefix + "_", "." + suffix, new File(imageLocation));
                     	
@@ -98,12 +93,12 @@ public class ModificationAlbumBean implements Serializable {
                         IOUtils.copy(fichier.getInputStream(), output);
                         String fileName = file.getName();
                         
-                        String oldFileName = album.getUri();
+                        String oldFileName = this.photo.getUri();
                         File oldFile = new File(imageLocation+"\\"+oldFileName);
                         oldFile.deleteOnExit();
                         
                         
-                        album.setUri(fileName);
+                        this.photo.setUri(fileName);
                         
                     } catch (IOException e) {
                         if (file != null) file.delete();
@@ -127,49 +122,31 @@ public class ModificationAlbumBean implements Serializable {
             
             initialiserMotsCles();
             initialiserDateModification();
-            session.setAttribute("newAlbum", album);
-        	albumDao.update(album);
+        	photoDao.update(this.photo);
         	
             //SETTING THINGS FOR REDIRECTION
             FacesContext fContext = FacesContext.getCurrentInstance();
         	ExternalContext extContext = fContext.getExternalContext();
-        	
-            if(album.getPrive()) {
-            	try {
-    				extContext.redirect("choix_acces_album.xhtml");
-    			} catch (IOException e) {
-    				e.printStackTrace();
-    			}
-            }else {
-            	try {
-    				extContext.redirect("album_details.xhtml?albumId="+album.getId());
-    			} catch (IOException e) {
-    				e.printStackTrace();
-    			}
-            }
-                    
-                
-            	
-            	///////////////////////////
-            	
+        	try {
+        		extContext.redirect("photo_details.xhtml?photoId="+this.photo.getId());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
             
-
     	}else { //absence de session utilisateur et admin
-    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Vous devez etre authentifié pour pourvoir modifier un album", null) ;
+    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Vous devez etre authentifié pour pourvoir modifier une photo", null) ;
         	FacesContext.getCurrentInstance().addMessage( null, message );
     	}
-    	
-        
         
     }
     
 
-    public Album getAlbum() {
-        return album;
+    public Photo getPhoto() {
+        return this.photo;
     }
 
-    public void setAlbum( Album album ) {
-        this.album = album;
+    public void setPhoto( Photo photo ) {
+        this.photo = photo;
     }
     
     public String getChaineMotCle() {
@@ -192,7 +169,7 @@ public class ModificationAlbumBean implements Serializable {
     
     private void initialiserDateModification() {
         Timestamp date = new Timestamp( System.currentTimeMillis() );
-        album.setDateMiseAJour( date );
+        this.photo.setDateMiseAJour( date );
     }
     
     void initialiserMotsCles() {
@@ -202,6 +179,6 @@ public class ModificationAlbumBean implements Serializable {
 			listMotsCles.add(splitedKeyWords[i]);
 		}
     	
-    	album.setMotsCles(listMotsCles);
+    	photo.setMotsCles(listMotsCles);
     }
 }

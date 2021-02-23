@@ -12,24 +12,22 @@
     		Permet de ne pas utiliser une succession de <class> pour énumérer les classes des entités gérées par ce P.U
     	-->
         <!--  <exclude-unlisted-classes>false</exclude-unlisted-classes> -->
-       <!-- <class>beans.persistent.Guest</class> -->
        <class>beans.persistent.Personne</class>
        <class>beans.persistent.Utilisateur</class>
-       <!-- <class>beans.persistent.Admin</class> -->
        <class>beans.persistent.Album</class>
        <class>beans.persistent.Photo</class>
        <properties>
  			<!-- Pour la définition du niveau de Logging. Peut prendre les valeurs :
  				OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST, ALL
  			-->
-			<property name="eclipselink.logging.level" value="FINEST"/>
-			<property name="eclipselink.logging.level.sql" value="FINEST"/>
+			<property name="eclipselink.logging.level" value="FINE"/>
+			<property name="eclipselink.logging.level.sql" value="FINE"/>
 			
 			<!-- Pour la génération des tables à partir des entités
 				"create-tables" ==> Crée les tables si elles n'existent pas
 				"drop-and-create-tables" ==> Supprime puis crée les tables
 			-->
-           <property name="eclipselink.ddl-generation" value="create-tables"/>
+           <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
            <!-- <property name="eclipselink.target-database" value="Auto"/> -->
         </properties>
 
