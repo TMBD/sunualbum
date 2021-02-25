@@ -26,6 +26,7 @@ public class PhotoDao {
 
 	private static final String SELECT_ALL_PHOTOS_JPQL = "SELECT p FROM Photo p";
 	private static final String SELECT_PHOTO_BY_ID_JPQL = "SELECT p FROM Photo p WHERE p.id=";
+	private static final String SELECT_PHOTO_BY_ALBUM_ID_JPQL = "SELECT p FROM Photo p WHERE p.album.id=";
 	private static final String UPDATE_PHOTO_JPQL = "UPDATE Photo p SET p = :photo WHERE p.id LIKE :id";
 	
 
@@ -101,6 +102,17 @@ public class PhotoDao {
 
 	public void remove(Integer id) {
 		em.remove(findById(id));
+	}
+
+	public List<Photo> findByAlbumId(int id) {
+		List<Photo> allPhoto = findAll();
+		List<Photo> resultPhoto = new ArrayList<Photo>();
+		for (Photo photo : allPhoto) {
+			if(photo.getAlbum().getId() == id) {
+				resultPhoto.add(photo);
+			}
+		}
+		return resultPhoto;
 	}
 
 	

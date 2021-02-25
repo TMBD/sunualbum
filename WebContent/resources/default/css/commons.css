@@ -13,6 +13,7 @@
 	margin-top: 50px;
 }
 
+
 .div-center{
   position: absolute;
   left: 50%;
@@ -21,6 +22,15 @@
   width: 50%;
   max-width: 800px;
   min-width: 250px;
+  
+  
+  -moz-box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.3);
+	box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.3);
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	padding: 10px;
 }
 
 
@@ -29,7 +39,7 @@
 	left: 50%;
 	transform: translateX(-50%);
 	
-	max-width: 450px;
+	max-width: 550px;
 	
 	-moz-box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.3);
 	-webkit-box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.3);

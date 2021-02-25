@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import beans.persistent.Album;
+import beans.persistent.Photo;
 import beans.persistent.Utilisateur;
 
 
@@ -67,6 +68,29 @@ public class AlbumDao {
 
 	public void remove(Integer id) {
 		em.remove(findById(id));
+	}
+	
+	public List<Album> findByProprietaireId(int id) {
+		List<Album> allAlbums = findAll();
+		List<Album> resultAlbum = new ArrayList<Album>();
+		for (Album album : allAlbums) {
+			if(album.getProprietaire().getId() == id) {
+				resultAlbum.add(album);
+			}
+		}
+		return resultAlbum;
+	}
+	
+	public List<Album> findByProprietaireUsername(String username) {
+		
+		List<Album> allAlbums = findAll();
+		List<Album> resultAlbum = new ArrayList<Album>();
+		for (Album album : allAlbums) {
+			if(album.getProprietaire().getUsername() == username) {
+				resultAlbum.add(album);
+			}
+		}
+		return resultAlbum;
 	}
 
 

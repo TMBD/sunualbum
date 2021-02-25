@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -17,8 +18,10 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import beans.persistent.Album;
+import beans.persistent.Photo;
 import beans.persistent.Utilisateur;
 import dao.AlbumDao;
+import dao.PhotoDao;
 import dao.UtilisateurDao;
 
 
@@ -29,6 +32,9 @@ public class CommonAlbumBean implements Serializable {
 
     @EJB
     AlbumDao albumDao;
+    
+    @EJB
+    PhotoDao photoDao;
     
     @EJB
     UtilisateurDao utilisateurDao;
@@ -42,7 +48,6 @@ public class CommonAlbumBean implements Serializable {
 
     public CommonAlbumBean() {
     	allAlbums = new ArrayList<Album>();
-    	//allPublicAlbums = new ArrayList<Album>();
     }
     
     
@@ -186,16 +191,24 @@ public class CommonAlbumBean implements Serializable {
     	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
     	Album a = albumDao.findById(id);
     	if(userCanModifyAlbumOrRedirect(utilisateurCourant, a)) {
-    		albumDao.remove(a.getId());
-    		
-    		String imageLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\album_images";
-    		String oldFileName = a.getUri();
-            File oldFile = new File(imageLocation+"\\"+oldFileName);
-            oldFile.deleteOnExit();
-            
-    		FacesContext fContext = FacesContext.getCurrentInstance();
-        	ExternalContext extContext = fContext.getExternalContext();
-        	try {
+    		List<Photo> photosForAlbum = photoDao.findByAlbumId(id);
+    		try {
+	    		String photoLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\photo_images";
+	            for (Photo p : photosForAlbum) {
+	            	String oldFileName = p.getUri();
+		            File oldFile = new File(photoLocation+"\\"+oldFileName);
+		            photoDao.remove(p.getId());
+		            oldFile.delete();
+				}
+	            
+	            String albumLocation = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\resources\\uploaded")+"\\album_images";
+	    		String oldFileName = a.getUri();
+	            File oldFile = new File(albumLocation+"\\"+oldFileName);
+	            albumDao.remove(a.getId());
+	            oldFile.delete();
+	            
+	    		FacesContext fContext = FacesContext.getCurrentInstance();
+	        	ExternalContext extContext = fContext.getExternalContext();
     			extContext.redirect("index.xhtml");
     		} catch (IOException e) {
     			e.printStackTrace();
@@ -322,8 +335,9 @@ public class CommonAlbumBean implements Serializable {
 	}
 	
     public static boolean userHasAccesToAlbum(Utilisateur u, Album a ){
-    	if(a == null || u == null) return false;
+    	if(a == null) return false;
     	if(a.getPrive() == false) return true;
+    	if(u == null) return false;
     	if(userCanModifyAlbumByUserAndAlbum(u, a)) return true;
     	return a.getUtilisateursAutorises().contains(u);
     }

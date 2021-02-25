@@ -95,7 +95,7 @@ public class ModificationPhotoBean implements Serializable {
                         
                         String oldFileName = this.photo.getUri();
                         File oldFile = new File(imageLocation+"\\"+oldFileName);
-                        oldFile.deleteOnExit();
+                        oldFile.delete();
                         
                         
                         this.photo.setUri(fileName);

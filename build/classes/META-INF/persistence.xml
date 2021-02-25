@@ -27,7 +27,7 @@
 				"create-tables" ==> Crée les tables si elles n'existent pas
 				"drop-and-create-tables" ==> Supprime puis crée les tables
 			-->
-           <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+           <property name="eclipselink.ddl-generation" value="create-tables"/>
            <!-- <property name="eclipselink.target-database" value="Auto"/> -->
         </properties>
 

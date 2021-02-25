@@ -100,7 +100,7 @@ public class ModificationAlbumBean implements Serializable {
                         
                         String oldFileName = album.getUri();
                         File oldFile = new File(imageLocation+"\\"+oldFileName);
-                        oldFile.deleteOnExit();
+                        oldFile.delete();
                         
                         
                         album.setUri(fileName);
