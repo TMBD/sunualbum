@@ -100,12 +100,6 @@ public class CommonAlbumBean implements Serializable {
     	    			e.printStackTrace();
     	    		}
     			}
-		    	
-    			
-    			
-    			
-    			
-    			
     		}
     		
     	}
@@ -283,7 +277,6 @@ public class CommonAlbumBean implements Serializable {
 //    	Utilisateur utilisateurCourant = (Utilisateur)session.getAttribute("utilisateur");
 		if(u == null || a == null) return false;
 		if(u.getEstAdmin()) return true;
-		System.out.println("Album en questionoooooooooooooo "+a);
     	if(a.getProprietaire().equals(u)) return true;
     	return false;
     	

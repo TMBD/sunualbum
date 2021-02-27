@@ -103,27 +103,20 @@
 			</h:panelGroup>
  
 	        <br />
-	        
-			
       	</div>
       </div>
       
       
-      <c:if test="#{( !empty sessionScope['utilisateur']) and sessionScope['utilisateur'] != null}">
-      	  <div class="new-album-photo">
-			<div class="new-album" onclick="goToNewAlbum()">Nouvel album</div>
+      <h:panelGroup layout="block" rendered="#{( !empty sessionScope['utilisateur']) and sessionScope['utilisateur'] != null and commonAlbumBean.albumDetails != null and commonAlbumBean.userCanModifyAlbumByUserSession(commonAlbumBean.albumDetails.id) == true and sessionScope['utilisateur'].id == commonAlbumBean.albumDetails.proprietaire.id}">
+      	<div class="new-album-photo">
+			<div class="new-photo" onclick="goToNewPhoto()">Nouvelle photo</div>
 		  </div>
-		  
 		  <script>
-			function goToNewAlbum(){
-				window.location.href = "creer_album.xhtml";
+			function goToNewPhoto(){
+				window.location.href = "creer_photo.xhtml?albumId="+#{commonAlbumBean.albumDetails.id};
 			}
-
-			function confirmeSuppression(){
-				return confirm("Voulez-vous vraiment supprimer cet album ?");
-			}
-          </script>
-      </c:if>
-
+      	  </script>
+      </h:panelGroup>
+      
     </h:body>
 </html>
